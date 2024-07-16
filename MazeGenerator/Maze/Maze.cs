@@ -19,8 +19,8 @@ namespace MazeGenerator.Maze
 
             Width = width;
             Height = height;
-            Start = (1, 1);
-            Finish = (width, height);
+            Start = (0, 0);
+            Finish = (width - 1, height - 1);
         }
     }
 }

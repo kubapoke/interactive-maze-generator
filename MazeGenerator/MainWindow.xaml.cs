@@ -19,6 +19,11 @@ namespace MazeGenerator
             GeneratorList = new List<NamedGenerator>
             { new NamedGenerator { Name = "Randomized Kruskal", Generator = new KruskalGenerator()} };
 
+            KruskalGenerator generator = new KruskalGenerator();
+
+            var maze = generator.GenerateMaze(5, 5, (0, 0), (4, 4));
+            ;
+
             DataContext = this;
         }
 

@@ -71,7 +71,9 @@
   <ItemGroup>
     <Compile Include="Maze\Generators\Generator.cs" />
     <Compile Include="Maze\Generators\KruskalGenerator.cs" />
-    <Compile Include="Maze\HelperFunctions\HelperFunctions.cs" />
+    <Compile Include="Maze\Helpers\CoordinateConverters.cs" />
+    <Compile Include="Maze\Helpers\Shuffler.cs" />
+    <Compile Include="Maze\Helpers\UnionFind.cs" />
     <Compile Include="Maze\Maze.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
