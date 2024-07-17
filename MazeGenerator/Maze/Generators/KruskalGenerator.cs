@@ -1,4 +1,5 @@
-﻿using MazeGenerator.Maze.Helpers;
+﻿using MazeGenerator.Drawing;
+using MazeGenerator.Maze.Helpers;
 using System.Collections.Generic;
 
 namespace MazeGenerator.Maze.Generators
@@ -9,7 +10,7 @@ namespace MazeGenerator.Maze.Generators
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<(int u, int v)> potentialEdges = new List<(int, int)>();
-            bool startConnected = false, finishConnected = false;
+            bool finishConnected = false;
 
             for (int x = 0; x < width; x++)
             {
@@ -40,6 +41,8 @@ namespace MazeGenerator.Maze.Generators
                 {
                     mazeGraph[potentialEdge.u].Add(potentialEdge.v);
                     mazeGraph[potentialEdge.v].Add(potentialEdge.u);
+
+                    MazeDrawer.DrawRectangleWithSleep(MainWindow.Canvas, width, height, CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width));
                 }
             }
 
