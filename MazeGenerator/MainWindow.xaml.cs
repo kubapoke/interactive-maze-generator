@@ -19,11 +19,6 @@ namespace MazeGenerator
             GeneratorList = new List<NamedGenerator>
             { new NamedGenerator { Name = "Randomized Kruskal", Generator = new KruskalGenerator()} };
 
-            KruskalGenerator generator = new KruskalGenerator();
-
-            var maze = generator.GenerateMaze(5, 5, (0, 0), (4, 4));
-            ;
-
             DataContext = this;
         }
 
@@ -31,6 +26,20 @@ namespace MazeGenerator
         {
             public string Name { get; set; }
             public Generator Generator { get; set; }
+        }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try // temporary solution, input validation should be done separately
+            {
+                Maze = new Maze.Maze(int.Parse(WidthTextBox.Text), int.Parse(HeightTextBox.Text));
+
+                Maze.Generate(GeneratorComboBox.SelectedValue as Generator);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MazeGenerator.Maze.Generators;
+using System;
 using System.Collections.Generic;
 
 namespace MazeGenerator.Maze
@@ -21,6 +22,11 @@ namespace MazeGenerator.Maze
             Height = height;
             Start = (0, 0);
             Finish = (width - 1, height - 1);
+        }
+
+        public void Generate(Generator generator)
+        {
+            MazeGraph = generator.GenerateMaze(Width, Height, Start, Finish);
         }
     }
 }

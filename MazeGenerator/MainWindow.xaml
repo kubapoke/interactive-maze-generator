@@ -22,7 +22,9 @@
             </Menu>
         </DockPanel>
 
-        <GroupBox Grid.Row="1" Grid.Column="1" Height="Auto" Width="Auto" Header="Generation">
+        <Canvas Grid.Row="1" Background="Black" Margin="3"/>
+
+        <GroupBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Width="Auto" Header="Generation" BorderBrush="Black">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -30,11 +32,27 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Label Content="Generator:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0" Margin="3"/>
                 <ComboBox Name="GeneratorComboBox" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding GeneratorList}" DisplayMemberPath="Name" SelectedValuePath="Generator" Width="Auto" SelectedIndex="0" Margin="3"/>
 
+                <Label Content="Size:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1" Margin="3"/>
+                <Grid  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="WidthTextBox" Grid.Column="0" MaxLength="2" Width="25" Margin="5" Text="0" TextAlignment="Center"/>
+                    <Label Grid.Column="1" Content="x" />
+                    <TextBox x:Name="HeightTextBox" Grid.Column="2" MaxLength="2" Width="25" Margin="5" Text="0" TextAlignment="Center"/>
+                </Grid>
+
+                <Button x:Name="GenerateButton" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Generate" Width="80" Height="35" Click="GenerateButton_Click"/>
             </Grid>
         </GroupBox>
     </Grid>

@@ -27,15 +27,6 @@ namespace MazeGenerator.Maze.Generators
 
             foreach (var potentialEdge in potentialEdges)
             {
-                if (potentialEdge.u == CoordinateConverters.CoordsToVertex(start, width) || potentialEdge.v == CoordinateConverters.CoordsToVertex(start, width))
-                {
-                    if (startConnected == false)
-                        startConnected = true;
-                    else
-                        continue;
-
-                }
-
                 if (potentialEdge.u == CoordinateConverters.CoordsToVertex(finish, width) || potentialEdge.v == CoordinateConverters.CoordsToVertex(finish, width))
                 {
                     if (finishConnected == false)
