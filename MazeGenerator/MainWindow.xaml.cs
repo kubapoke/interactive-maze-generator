@@ -24,7 +24,8 @@ namespace MazeGenerator
             DockPanel = TopDockPanel;
 
             GeneratorList = new List<NamedGenerator>
-            { new NamedGenerator { Name = "Randomized Kruskal", Generator = new KruskalGenerator()} };
+            { new NamedGenerator { Name = "Kruskal", Generator = new KruskalGenerator()},
+            new NamedGenerator { Name = "Dijkstra", Generator = new DijkstraGenerator()} };
 
             DataContext = this;
         }

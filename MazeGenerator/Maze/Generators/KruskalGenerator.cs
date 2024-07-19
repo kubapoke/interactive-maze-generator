@@ -9,20 +9,9 @@ namespace MazeGenerator.Maze.Generators
         public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
-            List<(int u, int v)> potentialEdges = new List<(int, int)>();
+            List<(int u, int v)> potentialEdges = GeneratePotentialEdges(width, height);
             List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
             bool finishConnected = false;
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    if (x != width - 1)
-                        potentialEdges.Add((CoordinateConverters.CoordsToVertex(x, y, width), CoordinateConverters.CoordsToVertex(x + 1, y, width)));
-                    if (y != height - 1)
-                        potentialEdges.Add((CoordinateConverters.CoordsToVertex(x, y, width), CoordinateConverters.CoordsToVertex(x, y + 1, width)));
-                }
-            }
 
             Shuffler.FisherYatesShuffle(potentialEdges);
             UnionFind unionFind = new UnionFind(width * height);

@@ -5,10 +5,9 @@ namespace MazeGenerator.Maze.Helpers
 {
     internal class Shuffler
     {
+        private static Random rnd = new Random();
         public static void FisherYatesShuffle<T>(IList<T> list)
         {
-            Random rnd = new Random();
-
             for (int i = list.Count; i > 0; i--)
             {
                 int toSwap = rnd.Next(i);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MazeGenerator.Maze.Helpers;
+using System.Collections.Generic;
 
 namespace MazeGenerator.Maze.Generators
 {
@@ -17,6 +18,57 @@ namespace MazeGenerator.Maze.Generators
             }
 
             return resultArray;
+        }
+
+        protected static List<(int u, int v)> GeneratePotentialEdges(int width, int height)
+        {
+            List<(int u, int v)> potentialEdges = new List<(int, int)>();
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (x != width - 1)
+                        potentialEdges.Add((CoordinateConverters.CoordsToVertex(x, y, width), CoordinateConverters.CoordsToVertex(x + 1, y, width)));
+                    if (y != height - 1)
+                        potentialEdges.Add((CoordinateConverters.CoordsToVertex(x, y, width), CoordinateConverters.CoordsToVertex(x, y + 1, width)));
+                }
+            }
+
+            return potentialEdges;
+        }
+
+        protected static List<int>[] GenerateFullMazeGraph(int width, int height, bool randomizeOrder = true)
+        {
+            List<int>[] fullMazeGraph = new List<int>[width * height];
+
+            for (int i = 0; i < fullMazeGraph.Length; i++)
+                fullMazeGraph[i] = new List<int>();
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (x != width - 1)
+                    {
+                        fullMazeGraph[CoordinateConverters.CoordsToVertex(x, y, width)].Add(CoordinateConverters.CoordsToVertex(x + 1, y, width));
+                        fullMazeGraph[CoordinateConverters.CoordsToVertex(x + 1, y, width)].Add(CoordinateConverters.CoordsToVertex(x, y, width));
+                    }
+                    if (y != height - 1)
+                    {
+                        fullMazeGraph[CoordinateConverters.CoordsToVertex(x, y, width)].Add(CoordinateConverters.CoordsToVertex(x, y + 1, width));
+                        fullMazeGraph[CoordinateConverters.CoordsToVertex(x, y + 1, width)].Add(CoordinateConverters.CoordsToVertex(x, y, width));
+                    }
+                }
+            }
+
+            if (randomizeOrder)
+            {
+                for (int i = 0; i < fullMazeGraph.Length; i++)
+                    Shuffler.FisherYatesShuffle(fullMazeGraph[i]);
+            }
+
+            return fullMazeGraph;
         }
     }
 }

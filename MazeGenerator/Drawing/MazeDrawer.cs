@@ -72,8 +72,6 @@ namespace MazeGenerator.Drawing
             return rect;
         }
 
-
-        // function should be changed, used for testing
         public static void DrawMazeInOrder(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
         {
             foreach (var edge in edgesToDraw)
@@ -90,6 +88,65 @@ namespace MazeGenerator.Drawing
                 rect.Stroke = new SolidColorBrush(Colors.White);
                 rect.Fill = new SolidColorBrush(Colors.White);
                 canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+            }
+        }
+
+        public static void DrawMazeWithStack(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 50)
+        {
+            List<((int x, int y) u, (int x, int y) v)> edgeStack = new List<((int x, int y) u, (int x, int y) v)>();
+            List<Rectangle> rectangleStack = new List<Rectangle>();
+            int idx = 0;
+
+            edgeStack.Add(edgesToDraw[idx]);
+
+            rectangleStack.Add(GetConnectionRectangle(canvas, width, height, edgesToDraw[idx].u, edgesToDraw[idx].v));
+            rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.Blue);
+            rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.Blue);
+            canvas.Children.Add(rectangleStack[rectangleStack.Count - 1]);
+            canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+            idx++;
+
+            while (edgeStack.Count > 0 && idx < edgesToDraw.Count)
+            {
+                while (edgeStack.Count > 0 && edgeStack[edgeStack.Count - 1].v != edgesToDraw[idx].u)
+                {
+                    edgeStack.RemoveAt(edgeStack.Count - 1);
+
+                    rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.White);
+                    rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.White);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    rectangleStack.RemoveAt(rectangleStack.Count - 1);
+
+                    Thread.Sleep(sleepTime);
+                }
+
+
+                edgeStack.Add(edgesToDraw[idx]);
+
+                rectangleStack.Add(GetConnectionRectangle(canvas, width, height, edgesToDraw[idx].u, edgesToDraw[idx].v));
+                rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.Blue);
+                rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.Blue);
+                canvas.Children.Add(rectangleStack[rectangleStack.Count - 1]);
+                canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                idx++;
+
+                Thread.Sleep(sleepTime);
+            }
+
+            while (edgeStack.Count > 0)
+            {
+                edgeStack.RemoveAt(edgeStack.Count - 1);
+
+                rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.White);
+                rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.White);
+                canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                rectangleStack.RemoveAt(rectangleStack.Count - 1);
+
+                Thread.Sleep(sleepTime);
             }
         }
     }
