@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.ColumnSpan="2">
+        <DockPanel x:Name="TopDockPanel" Grid.ColumnSpan="2">
             <Menu>
                 <MenuItem Header="File" IsEnabled="False"/>
             </Menu>

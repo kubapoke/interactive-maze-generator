@@ -14,12 +14,14 @@ namespace MazeGenerator
         public Maze.Maze Maze;
         public List<NamedGenerator> GeneratorList { get; set; }
         public static Canvas Canvas;
+        public static DockPanel DockPanel;
 
         public MainWindow()
         {
             InitializeComponent();
 
             Canvas = MazeCanvas;
+            DockPanel = TopDockPanel;
 
             GeneratorList = new List<NamedGenerator>
             { new NamedGenerator { Name = "Randomized Kruskal", Generator = new KruskalGenerator()} };

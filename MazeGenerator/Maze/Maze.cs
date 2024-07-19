@@ -24,9 +24,9 @@ namespace MazeGenerator.Maze
             Finish = (width - 1, height - 1);
         }
 
-        public void Generate(Generator generator)
+        public void Generate(Generator generator, bool draw = true)
         {
-            MazeGraph = generator.GenerateMaze(Width, Height, Start, Finish);
+            MazeGraph = generator.GenerateMaze(Width, Height, Start, Finish, draw);
         }
     }
 }

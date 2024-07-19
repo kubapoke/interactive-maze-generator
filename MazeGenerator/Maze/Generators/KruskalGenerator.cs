@@ -6,10 +6,11 @@ namespace MazeGenerator.Maze.Generators
 {
     public class KruskalGenerator : Generator
     {
-        public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
+        public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<(int u, int v)> potentialEdges = new List<(int, int)>();
+            List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
             bool finishConnected = false;
 
             for (int x = 0; x < width; x++)
@@ -42,9 +43,13 @@ namespace MazeGenerator.Maze.Generators
                     mazeGraph[potentialEdge.u].Add(potentialEdge.v);
                     mazeGraph[potentialEdge.v].Add(potentialEdge.u);
 
-                    MazeDrawer.DrawRectangleWithSleep(MainWindow.Canvas, width, height, CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width));
+                    if (draw)
+                        edgesToDraw.Add((CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width)));
                 }
             }
+
+            if (draw)
+                MazeDrawer.DrawMazeInOrder(MainWindow.Canvas, width, height, edgesToDraw);
 
             return mazeGraph;
         }

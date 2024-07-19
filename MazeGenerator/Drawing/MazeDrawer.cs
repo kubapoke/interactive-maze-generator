@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +15,7 @@ namespace MazeGenerator.Drawing
         {
             FrameworkElement parent = canvas.Parent as FrameworkElement;
             int parentWidth = (int)Math.Floor(parent.ActualWidth * 2.0 / 3.0 - canvas.Margin.Left - canvas.Margin.Right);
-            int parentHeight = (int)Math.Floor(parent.ActualHeight - canvas.Margin.Top - canvas.Margin.Bottom);
+            int parentHeight = (int)Math.Floor(parent.ActualHeight - MainWindow.DockPanel.ActualHeight - canvas.Margin.Top - canvas.Margin.Bottom);
 
             if (parent != null)
             {
@@ -39,34 +40,6 @@ namespace MazeGenerator.Drawing
             rect.Width = rect.Height = outlinedWidthHeight * 0.9;
             Canvas.SetLeft(rect, outlinedWidthHeight * (x + 0.05));
             Canvas.SetTop(rect, outlinedWidthHeight * (y + 0.05));
-
-            return rect;
-        }
-
-        public static Rectangle GetConnectionRectangle(Canvas canvas, int width, int height, int x1, int y1, int x2, int y2)
-        {
-            Rectangle rect = new Rectangle();
-
-            double outlinedWidthHeight = canvas.Width / (double)width;
-
-            if (x1 == x2 && Math.Abs(y1 - y2) == 1)
-            {
-                rect.Width = outlinedWidthHeight * 0.9;
-                rect.Height = outlinedWidthHeight * 1.9;
-                Canvas.SetLeft(rect, outlinedWidthHeight * (x1 + 0.05));
-                Canvas.SetTop(rect, outlinedWidthHeight * (Math.Min(y1, y2) + 0.05));
-            }
-            else if (y1 == y2 && Math.Abs(x1 - x2) == 1)
-            {
-                rect.Width = outlinedWidthHeight * 1.9;
-                rect.Height = outlinedWidthHeight * 0.9;
-                Canvas.SetLeft(rect, outlinedWidthHeight * (Math.Min(x1, x2) + 0.05));
-                Canvas.SetTop(rect, outlinedWidthHeight * (y1 + 0.05));
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
 
             return rect;
         }
@@ -101,20 +74,23 @@ namespace MazeGenerator.Drawing
 
 
         // function should be changed, used for testing
-        public static void DrawRectangleWithSleep(Canvas canvas, int width, int height, (int x, int y) u, (int x, int y) v)
+        public static void DrawMazeInOrder(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
         {
-            var rect = GetConnectionRectangle(canvas, width, height, u, v);
+            foreach (var edge in edgesToDraw)
+            {
+                var rect = GetConnectionRectangle(canvas, width, height, edge.u, edge.v);
 
-            rect.Stroke = new SolidColorBrush(Colors.Blue);
-            rect.Fill = new SolidColorBrush(Colors.Blue);
-            canvas.Children.Add(rect);
-            canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                rect.Stroke = new SolidColorBrush(Colors.Blue);
+                rect.Fill = new SolidColorBrush(Colors.Blue);
+                canvas.Children.Add(rect);
+                canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
 
-            Thread.Sleep(100);
+                Thread.Sleep(sleepTime);
 
-            rect.Stroke = new SolidColorBrush(Colors.White);
-            rect.Fill = new SolidColorBrush(Colors.White);
-            canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                rect.Stroke = new SolidColorBrush(Colors.White);
+                rect.Fill = new SolidColorBrush(Colors.White);
+                canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+            }
         }
     }
 }
