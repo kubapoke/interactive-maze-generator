@@ -25,7 +25,7 @@ namespace MazeGenerator
 
             GeneratorList = new List<NamedGenerator>
             { new NamedGenerator { Name = "Kruskal", Generator = new KruskalGenerator()},
-            new NamedGenerator { Name = "Dijkstra", Generator = new DijkstraGenerator()} };
+            new NamedGenerator { Name = "DFS", Generator = new DFSGenerator()} };
 
             DataContext = this;
         }

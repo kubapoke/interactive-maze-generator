@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MazeGenerator.Maze.Generators
 {
-    public class DijkstraGenerator : Generator
+    public class DFSGenerator : Generator
     {
         public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
         {
