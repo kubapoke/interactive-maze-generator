@@ -9,7 +9,7 @@ The main aim of this project is to practice visual programming skills (specifica
 ## Installation and compilation
 For now, the project has been worked on and compiled using Microsoft's Visual Studio, using WPF Framework and .NET 4.8 on a Windows device (as a WPF application, it is suited for Windows devices only).
 
-In the futture I'll provide a more accessible way to download just the binary file.
+In the future I'll provide a more accessible way to download just the binary file.
 
 ## Usage
 After running the application, you will see a generation menu. After selecting the maze parameters as well as the maze generation algorithm, pressing the "Generate" button shall create the desired maze, using the chosen algorithm, visualizing the alghoritm's maze creation process.
