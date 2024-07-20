@@ -7,7 +7,7 @@ The project is an interactive, visual maze generator written using C# and the WP
 The main aim of this project is to practice visual programming skills (specifically the aforementioned WPF framework) and learn to create applications with dynamically generated graphics. Moreover the project is supposed to help me practice general object-oriented programming as well as alghoritmics skills.
 
 ## Installation and compilation
-For now, the project has been worked on and compiled using Microsoft's Visual Studio, using WPF Framework 4.8 on a Windows device (as a WPF application, it is suited for Windows devices only).
+For now, the project has been worked on and compiled using Microsoft's Visual Studio, using WPF Framework and .NET 4.8 on a Windows device (as a WPF application, it is suited for Windows devices only).
 
 In the futture I'll provide a more accessible way to download just the binary file.
 
@@ -38,6 +38,7 @@ A similar menu shall be added for maze solving in the near future.
     - [ ] DFS
     - [ ] BFS
     - [ ] A*
+    - [ ] ...
 5. Miscalleanous
     - [ ] Add more variety to mazes, allowing to properly showcase shortest path algorithms
     - [ ] Add maze file import/export mechanism
