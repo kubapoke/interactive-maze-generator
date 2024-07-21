@@ -49,7 +49,7 @@ namespace MazeGenerator.Maze.Generators
             }
 
             if (draw)
-                MazeDrawer.DrawMazeInOrderWithMisses(MainWindow.Canvas, width, height, finish, edgesToDraw,0);
+                MazeDrawer.DrawMazeInOrderWithMisses(MainWindow.Canvas, width, height, finish, edgesToDraw);
 
             return mazeGraph;
         }
