@@ -70,6 +70,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Maze\Generators\AldousBroderGenerator.cs" />
     <Compile Include="Maze\Generators\DFSGenerator.cs" />
     <Compile Include="Maze\Generators\Generator.cs" />
     <Compile Include="Maze\Generators\KruskalGenerator.cs" />

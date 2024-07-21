@@ -41,11 +41,10 @@ namespace MazeGenerator.Maze.Generators
                         break;
                     }
                 }
-
             }
 
             if (draw)
-                MazeDrawer.DrawMazeWithStack(MainWindow.Canvas, width, height, edgesToDraw);
+                MazeDrawer.DrawMazeWithTraceback(MainWindow.Canvas, width, height, edgesToDraw);
 
             return mazeGraph;
         }

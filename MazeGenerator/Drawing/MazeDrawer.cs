@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MazeGenerator.Maze.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
@@ -91,7 +92,52 @@ namespace MazeGenerator.Drawing
             }
         }
 
-        public static void DrawMazeWithStack(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 50)
+        public static void DrawMazeInOrderWithMisses(Canvas canvas, int width, int height, (int x, int y) finish, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
+        {
+            bool finishConnected = false;
+            bool[] visited = new bool[width * height];
+
+            visited[CoordinateConverters.CoordsToVertex(edgesToDraw[0].u, width)] = true;
+
+            foreach (var edge in edgesToDraw)
+            {
+                var rect = GetConnectionRectangle(canvas, width, height, edge.u, edge.v);
+
+                if (visited[CoordinateConverters.CoordsToVertex(edge.v, width)] || (finishConnected && (edge.u == finish || edge.v == finish)))
+                {
+                    rect.Stroke = new SolidColorBrush(Colors.Red);
+                    rect.Fill = new SolidColorBrush(Colors.Red);
+                    canvas.Children.Add(rect);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    Thread.Sleep(sleepTime);
+
+                    canvas.Children.Remove(rect);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                }
+                else
+                {
+                    visited[CoordinateConverters.CoordsToVertex(edge.u, width)] = true;
+                    visited[CoordinateConverters.CoordsToVertex(edge.v, width)] = true;
+
+                    if (edge.u == finish || edge.v == finish)
+                        finishConnected = true;
+
+                    rect.Stroke = new SolidColorBrush(Colors.Blue);
+                    rect.Fill = new SolidColorBrush(Colors.Blue);
+                    canvas.Children.Add(rect);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    Thread.Sleep(sleepTime);
+
+                    rect.Stroke = new SolidColorBrush(Colors.White);
+                    rect.Fill = new SolidColorBrush(Colors.White);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                }     
+            }
+        }
+
+        public static void DrawMazeWithTraceback(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 50)
         {
             List<((int x, int y) u, (int x, int y) v)> edgeStack = new List<((int x, int y) u, (int x, int y) v)>();
             List<Rectangle> rectangleStack = new List<Rectangle>();
