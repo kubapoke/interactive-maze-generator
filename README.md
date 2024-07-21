@@ -30,7 +30,7 @@ A similar menu shall be added for maze solving in the near future.
 3. Maze generation algorithms
     - [X] DFS
     - [X] Kruskal
-    - [ ] Prim
+    - [X] Prim
     - [ ] Wilson (loop-erased random walk)
     - [ ] Aldous-Broder
     - [ ] ...

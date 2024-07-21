@@ -1,5 +1,6 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Generators;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ namespace MazeGenerator
         public List<NamedGenerator> GeneratorList { get; set; }
         public static Canvas Canvas;
         public static DockPanel DockPanel;
+        public static Random Rng = new Random();
 
         public MainWindow()
         {
@@ -25,7 +27,8 @@ namespace MazeGenerator
 
             GeneratorList = new List<NamedGenerator>
             { new NamedGenerator { Name = "Kruskal", Generator = new KruskalGenerator()},
-            new NamedGenerator { Name = "DFS", Generator = new DFSGenerator()} };
+            new NamedGenerator { Name = "DFS", Generator = new DFSGenerator()},
+            new NamedGenerator {Name = "Prim", Generator = new PrimGenerator()} };
 
             DataContext = this;
         }
