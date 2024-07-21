@@ -18,12 +18,16 @@ namespace MazeGenerator.Maze.Generators
             bool[] visited = new bool[fullMazeGraph.Length];
             List<(int u, int v)> candidateEdges = new List<(int u, int v)>();
 
-            int startVertex = CoordinateConverters.CoordsToVertex(start, width);
+            int startVertex = MainWindow.Rng.Next(height * width);
             int finishVertex = CoordinateConverters.CoordsToVertex(finish, width);
             visited[startVertex] = true;
 
             foreach(int neighbor in fullMazeGraph[startVertex])
+            {
                 candidateEdges.Add((startVertex, neighbor));
+                if (startVertex == finishVertex)
+                    break;
+            }  
 
             while(candidateEdges.Count > 0)
             {
