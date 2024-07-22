@@ -1,6 +1,7 @@
 ﻿using MazeGenerator.Maze.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,6 +74,20 @@ namespace MazeGenerator.Drawing
             return rect;
         }
 
+        public static void ConfirmPendingRectangles(Canvas canvas)
+        {
+            foreach(var child in canvas.Children)
+            {
+                if(child is Rectangle)
+                {
+                    var rect = child as Rectangle;
+                    rect.Stroke = new SolidColorBrush(Colors.White);
+                    rect.Fill = new SolidColorBrush(Colors.White);
+
+                }
+            }
+        }
+
         public static void DrawMazeInOrder(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
         {
             foreach (var edge in edgesToDraw)
@@ -92,9 +107,8 @@ namespace MazeGenerator.Drawing
             }
         }
 
-        public static void DrawMazeInOrderWithMisses(Canvas canvas, int width, int height, (int x, int y) finish, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
+        public static void DrawMazeInOrderWithMisses(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
         {
-            bool finishConnected = false;
             bool[] visited = new bool[width * height];
 
             visited[CoordinateConverters.CoordsToVertex(edgesToDraw[0].u, width)] = true;
@@ -103,7 +117,7 @@ namespace MazeGenerator.Drawing
             {
                 var rect = GetConnectionRectangle(canvas, width, height, edge.u, edge.v);
 
-                if (visited[CoordinateConverters.CoordsToVertex(edge.v, width)] || (finishConnected && (edge.u == finish || edge.v == finish)))
+                if (visited[CoordinateConverters.CoordsToVertex(edge.v, width)])
                 {
                     rect.Stroke = new SolidColorBrush(Colors.Red);
                     rect.Fill = new SolidColorBrush(Colors.Red);
@@ -119,9 +133,6 @@ namespace MazeGenerator.Drawing
                 {
                     visited[CoordinateConverters.CoordsToVertex(edge.u, width)] = true;
                     visited[CoordinateConverters.CoordsToVertex(edge.v, width)] = true;
-
-                    if (edge.u == finish || edge.v == finish)
-                        finishConnected = true;
 
                     rect.Stroke = new SolidColorBrush(Colors.Blue);
                     rect.Fill = new SolidColorBrush(Colors.Blue);
@@ -193,6 +204,107 @@ namespace MazeGenerator.Drawing
                 rectangleStack.RemoveAt(rectangleStack.Count - 1);
 
                 Thread.Sleep(sleepTime);
+            }
+        }
+
+        public static void DrawMazeWithLoopErasure(Canvas canvas, int width, int height, List<((int x, int y) u, (int x, int y) v)> edgesToDraw, int sleepTime = 100)
+        {
+            Stack<((int x, int y) u, (int x, int y) v)> edgeStack = new Stack<((int x, int y) u, (int x, int y) v)>();
+            Stack<Rectangle> rectangleStack = new Stack<Rectangle>();
+            bool[,] visited = new bool[width, height];
+            bool[,] inCurrentPath = new bool[width, height];
+
+            foreach(var edge in edgesToDraw)
+            {
+                if(edge.v == (-1, -1))
+                {
+                    var rect = GetFieldRectangle(canvas, width, height, edge.u.x, edge.u.y);
+                    rect.Stroke = new SolidColorBrush(Colors.White);
+                    rect.Fill = new SolidColorBrush(Colors.White);
+                    canvas.Children.Add(rect);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    visited[edge.u.x, edge.u.y] = true;
+
+                    Thread.Sleep(sleepTime);
+
+                    continue;
+                }
+                else if (visited[edge.v.x, edge.v.y])
+                {
+                    edgeStack.Push(edge);
+                    inCurrentPath[edge.v.x, edge.v.y] = true;
+
+                    var rect = GetConnectionRectangle(canvas, width, height, edge.u, edge.v);
+                    rect.Fill = new SolidColorBrush(Colors.Blue);
+                    rect.Stroke = new SolidColorBrush(Colors.Blue);
+                    canvas.Children.Add(rect);
+
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    rectangleStack.Push(rect);
+
+                    Thread.Sleep(sleepTime);
+
+                    while (edgeStack.Count > 0)
+                    {
+                        visited[edgeStack.Peek().u.x, edgeStack.Peek().u.y] = true;
+                        inCurrentPath[edgeStack.Peek().u.x, edgeStack.Peek().u.y] = false;
+                        edgeStack.Pop();
+                        rectangleStack.Pop();
+                    }
+
+                    ConfirmPendingRectangles(canvas);
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    Thread.Sleep(sleepTime);
+                }
+                else if (inCurrentPath[edge.v.x, edge.v.y])
+                {
+                    List<Rectangle> edgesToRemove = new List<Rectangle>();
+                    var edgeToBackTo = edge.v;
+
+                    while(edgeStack.Count > 0 && edgeStack.Peek().v != edgeToBackTo)
+                    {
+                        inCurrentPath[edgeStack.Peek().v.x, edgeStack.Peek().v.y] = false;
+                        edgesToRemove.Add(rectangleStack.Pop());
+                        edgeStack.Pop();
+                    }
+
+                    foreach(var edgeToRemove in edgesToRemove)
+                    {
+                        edgeToRemove.Stroke = new SolidColorBrush(Colors.Red);
+                        edgeToRemove.Fill = new SolidColorBrush(Colors.Red);
+                    }
+
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    Thread.Sleep(sleepTime);
+
+                    foreach (var edgeToRemove in edgesToRemove)
+                    {
+                        canvas.Children.Remove(edgeToRemove);
+                    }
+
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                }
+                else
+                {
+                    edgeStack.Push(edge);
+                    inCurrentPath[edge.u.x, edge.u.y] = true;
+                    inCurrentPath[edge.v.x, edge.v.y] = true;
+
+                    var rect = GetConnectionRectangle(canvas, width, height, edge.u, edge.v);
+                    rect.Fill = new SolidColorBrush(Colors.Blue);
+                    rect.Stroke = new SolidColorBrush(Colors.Blue);
+                    canvas.Children.Add(rect);
+
+                    canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+
+                    rectangleStack.Push(rect);
+
+                    Thread.Sleep(sleepTime);
+                }
             }
         }
     }

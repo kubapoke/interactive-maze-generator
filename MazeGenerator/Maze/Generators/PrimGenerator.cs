@@ -43,15 +43,12 @@ namespace MazeGenerator.Maze.Generators
                     if (draw)
                         edgesToDraw.Add((CoordinateConverters.VertexToCoords(candidateEdge.u, width), CoordinateConverters.VertexToCoords(candidateEdge.v, width)));
 
-                    if(candidateEdge.v != finishVertex)
+                    foreach(var neighbor in fullMazeGraph[candidateEdge.v])
                     {
-                        foreach(var neighbor in fullMazeGraph[candidateEdge.v])
+                        if (!visited[neighbor])
                         {
-                            if (!visited[neighbor])
-                            {
-                                candidateEdges.Add((candidateEdge.v, neighbor));
-                            }     
-                        }
+                            candidateEdges.Add((candidateEdge.v, neighbor));
+                        }     
                     }
                 }
 

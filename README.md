@@ -31,8 +31,8 @@ A similar menu shall be added for maze solving in the near future.
     - [X] DFS
     - [X] Kruskal
     - [X] Prim
-    - [ ] Wilson (loop-erased random walk)
-    - [ ] Aldous-Broder
+    - [X] Wilson (loop-erased random walk)
+    - [X] Aldous-Broder
     - [ ] ...
 4. Maze solving algorithms
     - [ ] DFS

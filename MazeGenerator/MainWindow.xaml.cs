@@ -29,6 +29,7 @@ namespace MazeGenerator
             { new NamedGenerator { Name = "Kruskal", Generator = new KruskalGenerator() },
             new NamedGenerator { Name = "DFS", Generator = new DFSGenerator() },
             new NamedGenerator { Name = "Prim", Generator = new PrimGenerator() },
+            new NamedGenerator { Name = "Wilson", Generator = new WilsonGenerator() },
             new NamedGenerator { Name = "Aldous-Broder", Generator = new AldousBroderGenerator() } };
 
             DataContext = this;

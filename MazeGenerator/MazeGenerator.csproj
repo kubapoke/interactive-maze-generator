@@ -75,6 +75,7 @@
     <Compile Include="Maze\Generators\Generator.cs" />
     <Compile Include="Maze\Generators\KruskalGenerator.cs" />
     <Compile Include="Maze\Generators\PrimGenerator.cs" />
+    <Compile Include="Maze\Generators\WilsonGenerator.cs" />
     <Compile Include="Maze\Helpers\CoordinateConverters.cs" />
     <Compile Include="Maze\Helpers\Shuffler.cs" />
     <Compile Include="Maze\Helpers\UnionFind.cs" />

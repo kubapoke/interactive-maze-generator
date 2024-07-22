@@ -27,11 +27,11 @@ namespace MazeGenerator.Maze.Generators
 
             while(visitedVertices < height * width)
             {
-                int r = MainWindow.Rng.Next(fullMazeGraph[currentVertex].Count);
+                int r = MainWindow.Rng.Next(fullMazeGraph[currentVertex].Count - 1);
                 int nextVertex = fullMazeGraph[currentVertex][r];
 
-                if (currentVertex == finishVertex && prevVertex != -1)
-                    nextVertex = prevVertex;
+                if (nextVertex == prevVertex)
+                    nextVertex = fullMazeGraph[currentVertex][fullMazeGraph[currentVertex].Count - 1];
 
                 if (!visited[nextVertex])
                 {
@@ -49,7 +49,7 @@ namespace MazeGenerator.Maze.Generators
             }
 
             if (draw)
-                MazeDrawer.DrawMazeInOrderWithMisses(MainWindow.Canvas, width, height, finish, edgesToDraw);
+                MazeDrawer.DrawMazeInOrderWithMisses(MainWindow.Canvas, width, height, edgesToDraw);
 
             return mazeGraph;
         }

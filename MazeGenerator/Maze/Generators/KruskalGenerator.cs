@@ -11,22 +11,12 @@ namespace MazeGenerator.Maze.Generators
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<(int u, int v)> potentialEdges = GeneratePotentialEdges(width, height);
             List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
-            bool finishConnected = false;
 
             Shuffler.FisherYatesShuffle(potentialEdges);
             UnionFind unionFind = new UnionFind(width * height);
 
             foreach (var potentialEdge in potentialEdges)
             {
-                if (potentialEdge.u == CoordinateConverters.CoordsToVertex(finish, width) || potentialEdge.v == CoordinateConverters.CoordsToVertex(finish, width))
-                {
-                    if (finishConnected == false)
-                        finishConnected = true;
-                    else
-                        continue;
-
-                }
-
                 if (unionFind.Union(potentialEdge.u, potentialEdge.v))
                 {
                     mazeGraph[potentialEdge.u].Add(potentialEdge.v);

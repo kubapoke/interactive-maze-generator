@@ -14,15 +14,15 @@ namespace MazeGenerator.Maze.Generators
             bool[] visited = new bool[fullMazeGraph.Length];
             Stack<int> vertexStack = new Stack<int>();
 
-            vertexStack.Push(CoordinateConverters.CoordsToVertex(start, width));
-            visited[CoordinateConverters.CoordsToVertex(start, width)] = true;
+            int startVertex = MainWindow.Rng.Next(height * width);
+            int finishVertex = CoordinateConverters.CoordsToVertex(finish, width);
+
+            vertexStack.Push(startVertex);
+            visited[startVertex] = true;
 
             while (vertexStack.Count > 0)
             {
                 int currentVertex = vertexStack.Pop();
-
-                if (currentVertex == CoordinateConverters.CoordsToVertex(finish, width))
-                    continue;
 
                 foreach (int nextVertex in fullMazeGraph[currentVertex])
                 {
