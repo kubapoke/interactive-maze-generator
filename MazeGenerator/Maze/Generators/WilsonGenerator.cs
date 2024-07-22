@@ -60,7 +60,7 @@ namespace MazeGenerator.Maze.Generators
                         }
                         
                         vertexStack.Pop();
-                        if (vertexStack.Count > 1)
+                        if (vertexStack.Count > 0)
                         {
                             prevVertex = vertexStack.Peek();
                         }
