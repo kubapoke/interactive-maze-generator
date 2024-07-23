@@ -16,7 +16,7 @@ namespace MazeGenerator.Maze.Generators
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
             List<int> unusedVertices = new List<int>();
-            List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
+            LoopErasureDrawer drawer = new LoopErasureDrawer(MainWindow.Canvas, width, height);
             bool[] visited = new bool[fullMazeGraph.Length];
             bool[] inCurrentPath = new bool[fullMazeGraph.Length];
             Stack<int> vertexStack = new Stack<int>();
@@ -33,7 +33,7 @@ namespace MazeGenerator.Maze.Generators
             }
 
             if (draw)
-                edgesToDraw.Add((CoordinateConverters.VertexToCoords(startVertex, width), (-1, -1)));
+                drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(startVertex, width), (-1, -1));
 
             while(visitedVertices < width * height)
             {
@@ -78,7 +78,7 @@ namespace MazeGenerator.Maze.Generators
                     }
 
                     if (draw)
-                        edgesToDraw.Add((CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width)));
+                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
 
                     prevVertex = currentVertex;
                     currentVertex = nextVertex;
@@ -106,7 +106,7 @@ namespace MazeGenerator.Maze.Generators
             }
 
             if (draw)
-                MazeDrawer.DrawMazeWithLoopErasure(MainWindow.Canvas, width, height, edgesToDraw);
+                drawer.DrawMaze();
 
             return mazeGraph;
         }

@@ -10,7 +10,7 @@ namespace MazeGenerator.Maze.Generators
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<(int u, int v)> potentialEdges = GeneratePotentialEdges(width, height);
-            List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
+            SequentialDrawer drawer = new SequentialDrawer(MainWindow.Canvas, width, height);
 
             Shuffler.FisherYatesShuffle(potentialEdges);
             UnionFind unionFind = new UnionFind(width * height);
@@ -23,12 +23,12 @@ namespace MazeGenerator.Maze.Generators
                     mazeGraph[potentialEdge.v].Add(potentialEdge.u);
 
                     if (draw)
-                        edgesToDraw.Add((CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width)));
+                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width));
                 }
             }
 
             if (draw)
-                MazeDrawer.DrawMazeInOrder(MainWindow.Canvas, width, height, edgesToDraw);
+                drawer.DrawMaze();
 
             return mazeGraph;
         }

@@ -15,7 +15,7 @@ namespace MazeGenerator.Maze.Generators
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
-            List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
+            SequentialDrawerWithMisses drawer = new SequentialDrawerWithMisses(MainWindow.Canvas, width, height);
             bool[] visited = new bool[fullMazeGraph.Length];
 
             int startVertex = MainWindow.Rng.Next(height * width);
@@ -42,14 +42,14 @@ namespace MazeGenerator.Maze.Generators
                 }
 
                 if (draw)
-                    edgesToDraw.Add((CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width)));
+                    drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
 
                 prevVertex = currentVertex;
                 currentVertex = nextVertex;
             }
 
             if (draw)
-                MazeDrawer.DrawMazeInOrderWithMisses(MainWindow.Canvas, width, height, edgesToDraw);
+                drawer.DrawMaze();
 
             return mazeGraph;
         }

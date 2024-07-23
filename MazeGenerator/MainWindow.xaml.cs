@@ -47,10 +47,6 @@ namespace MazeGenerator
             {
                 Maze = new Maze.Maze(int.Parse(WidthTextBox.Text), int.Parse(HeightTextBox.Text));
 
-                MazeDrawer.ResizeCanvas(MazeCanvas, Maze.Width, Maze.Height);
-
-                MazeCanvas.Children.Clear();
-
                 Maze.Generate(GeneratorComboBox.SelectedValue as Generator);
             }
             catch (System.Exception ex)

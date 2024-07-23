@@ -10,7 +10,7 @@ namespace MazeGenerator.Maze.Generators
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
-            List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
+            TracebackDrawer drawer = new TracebackDrawer(MainWindow.Canvas, width, height);
             bool[] visited = new bool[fullMazeGraph.Length];
             Stack<int> vertexStack = new Stack<int>();
 
@@ -36,7 +36,7 @@ namespace MazeGenerator.Maze.Generators
                         mazeGraph[nextVertex].Add(currentVertex);
 
                         if (draw)
-                            edgesToDraw.Add((CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width)));
+                            drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
 
                         break;
                     }
@@ -44,7 +44,7 @@ namespace MazeGenerator.Maze.Generators
             }
 
             if (draw)
-                MazeDrawer.DrawMazeWithTraceback(MainWindow.Canvas, width, height, edgesToDraw);
+                drawer.DrawMaze();
 
             return mazeGraph;
         }

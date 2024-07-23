@@ -14,7 +14,7 @@ namespace MazeGenerator.Maze.Generators
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
-            List<((int x, int y) u, (int x, int y) v)> edgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
+            SequentialDrawer drawer = new SequentialDrawer(MainWindow.Canvas, width, height);
             bool[] visited = new bool[fullMazeGraph.Length];
             List<(int u, int v)> candidateEdges = new List<(int u, int v)>();
 
@@ -41,7 +41,7 @@ namespace MazeGenerator.Maze.Generators
                     mazeGraph[candidateEdge.v].Add(candidateEdge.u);
 
                     if (draw)
-                        edgesToDraw.Add((CoordinateConverters.VertexToCoords(candidateEdge.u, width), CoordinateConverters.VertexToCoords(candidateEdge.v, width)));
+                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(candidateEdge.u, width), CoordinateConverters.VertexToCoords(candidateEdge.v, width));
 
                     foreach(var neighbor in fullMazeGraph[candidateEdge.v])
                     {
@@ -55,8 +55,8 @@ namespace MazeGenerator.Maze.Generators
                 candidateEdges.Remove(candidateEdge);
             }
 
-            if(draw)
-                MazeDrawer.DrawMazeInOrder(MainWindow.Canvas, width, height, edgesToDraw);
+            if (draw)
+                drawer.DrawMaze();
 
             return mazeGraph;
         }

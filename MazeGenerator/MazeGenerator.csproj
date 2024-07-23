@@ -63,7 +63,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Drawing\MazeDrawer.cs" />
+    <Compile Include="Drawing\Drawer.cs" />
+    <Compile Include="Drawing\LoopErasureDrawer.cs" />
+    <Compile Include="Drawing\SequentialDrawer.cs" />
+    <Compile Include="Drawing\SequentialDrawerWithMisses.cs" />
+    <Compile Include="Drawing\TracebackDrawer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
