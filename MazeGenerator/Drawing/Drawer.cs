@@ -17,6 +17,7 @@ namespace MazeGenerator.Drawing
         protected Canvas Canvas;
         protected int Width, Height;
         protected List<((int x, int y) u, (int x, int y) v)> EdgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
+        public static bool SkipDrawing { get; set; }
 
         public Drawer(Canvas canvas, int width, int height)
         {
@@ -105,5 +106,23 @@ namespace MazeGenerator.Drawing
             }
         }
         public abstract Task DrawMazeAsync(int sleepTime = 100);
+
+        protected virtual async Task FinishDrawing()
+        {
+            Canvas.Children.Clear();
+            ResizeCanvas();
+
+            foreach(var edge in EdgesToDraw)
+            {
+                var rect = GetConnectionRectangle(edge.u, edge.v);
+                rect.Fill = new SolidColorBrush(Colors.White);
+                rect.Stroke = new SolidColorBrush(Colors.White);
+                Canvas.Children.Add(rect);
+            }
+
+            await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
+
+            SkipDrawing = false;
+        }
     }
 }

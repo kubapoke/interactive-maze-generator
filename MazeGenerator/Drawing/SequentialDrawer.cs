@@ -23,6 +23,12 @@ namespace MazeGenerator.Drawing
 
             foreach (var edge in EdgesToDraw)
             {
+                if (SkipDrawing)
+                {
+                    await FinishDrawing();
+                    return;
+                }
+
                 var rect = GetConnectionRectangle(edge.u, edge.v);
 
                 rect.Stroke = new SolidColorBrush(Colors.Blue);

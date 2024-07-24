@@ -57,7 +57,15 @@
                     <TextBox x:Name="HeightTextBox" Grid.Column="2" MaxLength="2" Width="25" Margin="5" Text="10" TextAlignment="Center"/>
                 </Grid>
 
-                <Button x:Name="GenerateButton" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Generate" Width="80" Height="35" Click="GenerateButton_Click" IsEnabled="{Binding IsGenerating, Converter={StaticResource reverseBoolConverter}}"/>
+                <Grid Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="GenerateButton" Grid.Column="0" HorizontalAlignment="Right" Content="Generate" Width="80" Height="35" Margin="4" Click="GenerateButton_Click" IsEnabled="{Binding IsGenerating, Converter={StaticResource reverseBoolConverter}}"/>
+                    <Button x:Name="FinishButton" Grid.Column="1" HorizontalAlignment="Left" Content="Finish" Width="80" Height="35" Margin="4" Click="FinishButton_Click" IsEnabled="{Binding IsGenerating}"/>
+                </Grid>
             </Grid>
         </GroupBox>
     </Grid>

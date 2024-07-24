@@ -84,6 +84,11 @@ namespace MazeGenerator
                 IsGenerating = false;
             }
         }
+
+        private void FinishButton_Click(object sender, RoutedEventArgs e)
+        {
+            Drawer.SkipDrawing = true;
+        }
     }
 
     public class ReverseBoolConverter : IValueConverter

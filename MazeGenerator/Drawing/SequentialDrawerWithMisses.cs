@@ -28,6 +28,12 @@ namespace MazeGenerator.Drawing
 
             foreach (var edge in EdgesToDraw)
             {
+                if (SkipDrawing)
+                {
+                    await FinishDrawing();
+                    return;
+                }
+
                 var rect = GetConnectionRectangle(edge.u, edge.v);
 
                 if (visited[CoordinateConverters.CoordsToVertex(edge.v, Width)])
@@ -59,6 +65,35 @@ namespace MazeGenerator.Drawing
                     await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
                 }
             }
+        }
+
+        protected override async Task FinishDrawing()
+        {
+            Canvas.Children.Clear();
+            ResizeCanvas();
+
+            bool[] visited = new bool[Width * Height];
+
+            visited[CoordinateConverters.CoordsToVertex(EdgesToDraw[0].u, Width)] = true;
+
+            foreach (var edge in EdgesToDraw)
+            {
+                var rect = GetConnectionRectangle(edge.u, edge.v);
+
+                if (!visited[CoordinateConverters.CoordsToVertex(edge.v, Width)])
+                {
+                    visited[CoordinateConverters.CoordsToVertex(edge.u, Width)] = true;
+                    visited[CoordinateConverters.CoordsToVertex(edge.v, Width)] = true;
+
+                    rect.Stroke = new SolidColorBrush(Colors.White);
+                    rect.Fill = new SolidColorBrush(Colors.White);
+                    Canvas.Children.Add(rect);
+                }
+            }
+
+            await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
+
+            SkipDrawing = false;
         }
     }
 }

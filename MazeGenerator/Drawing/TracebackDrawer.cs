@@ -38,8 +38,20 @@ namespace MazeGenerator.Drawing
 
             while (edgeStack.Count > 0 && idx < EdgesToDraw.Count)
             {
+                if (SkipDrawing)
+                {
+                    await FinishDrawing();
+                    return;
+                }
+
                 while (edgeStack.Count > 0 && edgeStack[edgeStack.Count - 1].v != EdgesToDraw[idx].u)
                 {
+                    if (SkipDrawing)
+                    {
+                        await FinishDrawing();
+                        return;
+                    }
+
                     edgeStack.RemoveAt(edgeStack.Count - 1);
 
                     rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.White);
@@ -66,6 +78,12 @@ namespace MazeGenerator.Drawing
 
             while (edgeStack.Count > 0)
             {
+                if (SkipDrawing)
+                {
+                    await FinishDrawing();
+                    return;
+                }
+
                 edgeStack.RemoveAt(edgeStack.Count - 1);
 
                 rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.White);
