@@ -23,9 +23,9 @@ namespace MazeGenerator.Drawing
 
             foreach (var edge in EdgesToDraw)
             {
-                if (SkipDrawing)
+                if (ShouldFinishDrawing)
                 {
-                    await FinishDrawing();
+                    ShouldFinishDrawing = false;
                     return;
                 }
 

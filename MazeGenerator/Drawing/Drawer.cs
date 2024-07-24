@@ -17,13 +17,17 @@ namespace MazeGenerator.Drawing
         protected Canvas Canvas;
         protected int Width, Height;
         protected List<((int x, int y) u, (int x, int y) v)> EdgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
-        public static bool SkipDrawing { get; set; }
+        protected bool ShouldFinishDrawing = false;
+
+        public static event EventHandler FinishDrawingEventHandler;
 
         public Drawer(Canvas canvas, int width, int height)
         {
             Canvas = canvas;
             Width = width;
             Height = height;
+
+            FinishDrawingEventHandler += OnFinishDrawing;
         }
 
         public void AddEdgeToDraw((int x, int y) u, (int x, int y) v)
@@ -107,7 +111,7 @@ namespace MazeGenerator.Drawing
         }
         public abstract Task DrawMazeAsync(int sleepTime = 100);
 
-        protected virtual async Task FinishDrawing()
+        protected virtual async Task FinishMazeDrawing()
         {
             Canvas.Children.Clear();
             ResizeCanvas();
@@ -121,8 +125,17 @@ namespace MazeGenerator.Drawing
             }
 
             await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
+        }
 
-            SkipDrawing = false;
+        public static async Task FinishDrawing()
+        {
+            await Task.Run(() => FinishDrawingEventHandler.Invoke(new object(), new EventArgs()));
+        }
+
+        protected async void OnFinishDrawing(object sender, EventArgs e)
+        {
+            ShouldFinishDrawing = true;
+            await Application.Current.Dispatcher.InvokeAsync(async () => await FinishMazeDrawing());
         }
     }
 }

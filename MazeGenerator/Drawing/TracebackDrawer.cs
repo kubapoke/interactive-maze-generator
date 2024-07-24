@@ -38,17 +38,17 @@ namespace MazeGenerator.Drawing
 
             while (edgeStack.Count > 0 && idx < EdgesToDraw.Count)
             {
-                if (SkipDrawing)
+                if (ShouldFinishDrawing)
                 {
-                    await FinishDrawing();
+                    ShouldFinishDrawing = false;
                     return;
                 }
 
                 while (edgeStack.Count > 0 && edgeStack[edgeStack.Count - 1].v != EdgesToDraw[idx].u)
                 {
-                    if (SkipDrawing)
+                    if (ShouldFinishDrawing)
                     {
-                        await FinishDrawing();
+                        await FinishMazeDrawing();
                         return;
                     }
 
@@ -78,9 +78,9 @@ namespace MazeGenerator.Drawing
 
             while (edgeStack.Count > 0)
             {
-                if (SkipDrawing)
+                if (ShouldFinishDrawing)
                 {
-                    await FinishDrawing();
+                    await FinishMazeDrawing();
                     return;
                 }
 

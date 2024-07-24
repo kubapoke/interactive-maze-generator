@@ -85,9 +85,9 @@ namespace MazeGenerator
             }
         }
 
-        private void FinishButton_Click(object sender, RoutedEventArgs e)
+        private async void FinishButton_Click(object sender, RoutedEventArgs e)
         {
-            Drawer.SkipDrawing = true;
+            await Drawer.FinishDrawing();
         }
     }
 

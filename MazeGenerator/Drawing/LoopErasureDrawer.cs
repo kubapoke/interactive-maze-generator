@@ -29,9 +29,9 @@ namespace MazeGenerator.Drawing
 
             foreach (var edge in EdgesToDraw)
             {
-                if (SkipDrawing)
+                if (ShouldFinishDrawing)
                 {
-                    await FinishDrawing();
+                    ShouldFinishDrawing = false;
                     return;
                 }
 
@@ -127,7 +127,7 @@ namespace MazeGenerator.Drawing
             }
         }
 
-        protected override async Task FinishDrawing()
+        protected override async Task FinishMazeDrawing()
         {
             Canvas.Children.Clear();
             ResizeCanvas();
@@ -198,8 +198,6 @@ namespace MazeGenerator.Drawing
             }
 
             await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
-
-            SkipDrawing = false;
         }
     }
 }
