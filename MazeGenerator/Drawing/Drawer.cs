@@ -109,7 +109,7 @@ namespace MazeGenerator.Drawing
                 }
             }
         }
-        public abstract Task DrawMazeAsync(int sleepTime = 100);
+        public abstract Task DrawAsync(int sleepTime = 100);
 
         protected virtual async Task FinishMazeDrawing()
         {

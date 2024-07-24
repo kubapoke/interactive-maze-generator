@@ -16,7 +16,7 @@ namespace MazeGenerator.Drawing
     {
         public SequentialDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
-        public override async Task DrawMazeAsync(int sleepTime = 100)
+        public override async Task DrawAsync(int sleepTime = 100)
         {
             Canvas.Children.Clear();
             ResizeCanvas();

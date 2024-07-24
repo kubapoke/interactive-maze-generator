@@ -34,7 +34,7 @@ namespace MazeGenerator.Maze
         {
             (MazeGraph, Drawer) = await Task.Run(() => generator.GenerateMaze(Width, Height, Start, Finish));
 
-            await Drawer.DrawMazeAsync();
+            await Drawer.DrawAsync();
         }
     }
 }

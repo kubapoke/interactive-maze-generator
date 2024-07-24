@@ -18,6 +18,7 @@ namespace MazeGenerator
     {
         public Maze.Maze Maze;
         private bool _IsGenerating = false;
+        private bool _IsGenerated = false;
         public static Canvas Canvas;
         public static DockPanel DockPanel;
         public static Random Rng = new Random();
@@ -33,6 +34,19 @@ namespace MazeGenerator
                 {
                     _IsGenerating = value;
                     OnPropertyChanged(nameof(IsGenerating));
+                }
+            }
+        }
+
+        public bool IsGenerated
+        {
+            get => _IsGenerated;
+            set
+            {
+                if(_IsGenerated != value)
+                {
+                    _IsGenerated = value;
+                    OnPropertyChanged(nameof(IsGenerated));
                 }
             }
         }
@@ -72,10 +86,12 @@ namespace MazeGenerator
                 Maze = new Maze.Maze(int.Parse(WidthTextBox.Text), int.Parse(HeightTextBox.Text));
 
                 IsGenerating = true;
+                IsGenerated = false;
 
                 await Maze.GenerateAsync(GeneratorComboBox.SelectedValue as Generator);
 
                 IsGenerating = false;
+                IsGenerated = true;
             }
             catch (System.Exception ex)
             {

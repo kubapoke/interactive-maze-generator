@@ -19,7 +19,7 @@ A similar menu shall be added for maze solving in the near future.
 ## To-do list
 1. User interface
     - [X] Provide a basic maze generation UI
-    - [ ] Provide a basic maze solving UI
+    - [X] Provide a basic maze solving UI
     - [ ] Extend the above menus with more complex options
 2. Maze visualization
     - [X] Create the basic maze vizualization tools
