@@ -1,11 +1,12 @@
-﻿using MazeGenerator.Maze.Helpers;
+﻿using MazeGenerator.Drawing;
+using MazeGenerator.Maze.Helpers;
 using System.Collections.Generic;
 
 namespace MazeGenerator.Maze.Generators
 {
     public abstract class Generator
     {
-        public abstract List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false);
+        public abstract (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish);
         protected static List<int>[] InitializeNeighborLists(int width, int height)
         {
             int n = width * height;

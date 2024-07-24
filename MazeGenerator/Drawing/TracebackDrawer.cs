@@ -9,6 +9,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace MazeGenerator.Drawing
 {
@@ -16,7 +17,7 @@ namespace MazeGenerator.Drawing
     {
         public TracebackDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
-        public override void DrawMaze(int sleepTime = 50)
+        public override async Task DrawMazeAsync(int sleepTime = 50)
         {
             Canvas.Children.Clear();
             ResizeCanvas();
@@ -31,7 +32,7 @@ namespace MazeGenerator.Drawing
             rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.Blue);
             rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.Blue);
             Canvas.Children.Add(rectangleStack[rectangleStack.Count - 1]);
-            Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+            await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
             idx++;
 
@@ -43,10 +44,10 @@ namespace MazeGenerator.Drawing
 
                     rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.White);
                     rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.White);
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
                     rectangleStack.RemoveAt(rectangleStack.Count - 1);
-                    Thread.Sleep(sleepTime);
+                    await Task.Delay(sleepTime);
                 }
 
 
@@ -56,11 +57,11 @@ namespace MazeGenerator.Drawing
                 rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.Blue);
                 rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.Blue);
                 Canvas.Children.Add(rectangleStack[rectangleStack.Count - 1]);
-                Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
                 idx++;
 
-                Thread.Sleep(sleepTime);
+                await Task.Delay(sleepTime);
             }
 
             while (edgeStack.Count > 0)
@@ -69,11 +70,11 @@ namespace MazeGenerator.Drawing
 
                 rectangleStack[rectangleStack.Count - 1].Stroke = new SolidColorBrush(Colors.White);
                 rectangleStack[rectangleStack.Count - 1].Fill = new SolidColorBrush(Colors.White);
-                Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
                 rectangleStack.RemoveAt(rectangleStack.Count - 1);
 
-                Thread.Sleep(sleepTime);
+                await Task.Delay(sleepTime);
             }
         }
     }

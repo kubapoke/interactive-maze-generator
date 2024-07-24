@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace MazeGenerator.Drawing
 {
@@ -103,7 +104,6 @@ namespace MazeGenerator.Drawing
                 }
             }
         }
-
-        public abstract void DrawMaze(int sleepTime = 100);
+        public abstract Task DrawMazeAsync(int sleepTime = 100);
     }
 }

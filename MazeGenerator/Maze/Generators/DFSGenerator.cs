@@ -6,7 +6,7 @@ namespace MazeGenerator.Maze.Generators
 {
     public class DFSGenerator : Generator
     {
-        public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
+        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
@@ -35,18 +35,14 @@ namespace MazeGenerator.Maze.Generators
                         mazeGraph[currentVertex].Add(nextVertex);
                         mazeGraph[nextVertex].Add(currentVertex);
 
-                        if (draw)
-                            drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
+                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
 
                         break;
                     }
                 }
             }
 
-            if (draw)
-                drawer.DrawMaze();
-
-            return mazeGraph;
+            return (mazeGraph, drawer);
         }
     }
 }

@@ -2,21 +2,45 @@
 using MazeGenerator.Maze.Generators;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace MazeGenerator
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public Maze.Maze Maze;
-        public List<NamedGenerator> GeneratorList { get; set; }
+        private bool _IsGenerating = false;
         public static Canvas Canvas;
         public static DockPanel DockPanel;
         public static Random Rng = new Random();
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public List<NamedGenerator> GeneratorList { get; set; }
+        public bool IsGenerating
+        {
+            get => _IsGenerating;
+            set
+            {
+                if(_IsGenerating != value)
+                {
+                    _IsGenerating = value;
+                    OnPropertyChanged(nameof(IsGenerating));
+                }
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public MainWindow()
         {
@@ -41,18 +65,37 @@ namespace MazeGenerator
             public Generator Generator { get; set; }
         }
 
-        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        private async void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
             try // temporary solution, input validation should be done separately
             {
                 Maze = new Maze.Maze(int.Parse(WidthTextBox.Text), int.Parse(HeightTextBox.Text));
 
-                Maze.Generate(GeneratorComboBox.SelectedValue as Generator);
+                IsGenerating = true;
+
+                await Maze.GenerateAsync(GeneratorComboBox.SelectedValue as Generator);
+
+                IsGenerating = false;
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show(ex.Message);
+
+                IsGenerating = false;
             }
+        }
+    }
+
+    public class ReverseBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

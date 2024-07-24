@@ -9,6 +9,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace MazeGenerator.Drawing
 {
@@ -16,7 +17,7 @@ namespace MazeGenerator.Drawing
     {
         public LoopErasureDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
-        public override void DrawMaze(int sleepTime = 50)
+        public override async Task DrawMazeAsync(int sleepTime = 50)
         {
             Canvas.Children.Clear();
             ResizeCanvas();
@@ -34,11 +35,11 @@ namespace MazeGenerator.Drawing
                     rect.Stroke = new SolidColorBrush(Colors.White);
                     rect.Fill = new SolidColorBrush(Colors.White);
                     Canvas.Children.Add(rect);
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
                     visited[edge.u.x, edge.u.y] = true;
 
-                    Thread.Sleep(sleepTime);
+                    await Task.Delay(sleepTime);
 
                     continue;
                 }
@@ -52,11 +53,11 @@ namespace MazeGenerator.Drawing
                     rect.Stroke = new SolidColorBrush(Colors.Blue);
                     Canvas.Children.Add(rect);
 
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
                     rectangleStack.Push(rect);
 
-                    Thread.Sleep(sleepTime);
+                    await Task.Delay(sleepTime);
 
                     while (edgeStack.Count > 0)
                     {
@@ -67,9 +68,9 @@ namespace MazeGenerator.Drawing
                     }
 
                     ConfirmPendingRectangles();
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
-                    Thread.Sleep(sleepTime);
+                    await Task.Delay(sleepTime);
                 }
                 else if (inCurrentPath[edge.v.x, edge.v.y])
                 {
@@ -89,16 +90,16 @@ namespace MazeGenerator.Drawing
                         edgeToRemove.Fill = new SolidColorBrush(Colors.Red);
                     }
 
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
-                    Thread.Sleep(sleepTime);
+                    await Task.Delay(sleepTime);
 
                     foreach (var edgeToRemove in edgesToRemove)
                     {
                         Canvas.Children.Remove(edgeToRemove);
                     }
 
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
                 }
                 else
                 {
@@ -111,11 +112,11 @@ namespace MazeGenerator.Drawing
                     rect.Stroke = new SolidColorBrush(Colors.Blue);
                     Canvas.Children.Add(rect);
 
-                    Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                    await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
                     rectangleStack.Push(rect);
 
-                    Thread.Sleep(sleepTime);
+                    await Task.Delay(sleepTime);
                 }
             }
         }

@@ -1,6 +1,11 @@
-﻿using MazeGenerator.Maze.Generators;
+﻿using MazeGenerator.Drawing;
+using MazeGenerator.Maze.Generators;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace MazeGenerator.Maze
 {
@@ -11,7 +16,8 @@ namespace MazeGenerator.Maze
         public int Height { get; private set; } = 0;
         public (int x, int y) Start { get; private set; } = (0, 0);
         public (int x, int y) Finish { get; private set; } = (0, 0);
-        private List<int>[] MazeGraph;
+        public List<int>[] MazeGraph;
+        public Drawer Drawer;
 
         public Maze(int width, int height)
         {
@@ -24,9 +30,11 @@ namespace MazeGenerator.Maze
             Finish = (width - 1, height - 1);
         }
 
-        public void Generate(Generator generator, bool draw = true)
+        public async Task GenerateAsync(Generator generator)
         {
-            MazeGraph = generator.GenerateMaze(Width, Height, Start, Finish, draw);
+            (MazeGraph, Drawer) = await Task.Run(() => generator.GenerateMaze(Width, Height, Start, Finish));
+
+            await Drawer.DrawMazeAsync();
         }
     }
 }

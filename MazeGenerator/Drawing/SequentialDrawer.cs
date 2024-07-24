@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Media3D;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace MazeGenerator.Drawing
 {
@@ -15,7 +16,7 @@ namespace MazeGenerator.Drawing
     {
         public SequentialDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
-        public override void DrawMaze(int sleepTime = 100)
+        public override async Task DrawMazeAsync(int sleepTime = 100)
         {
             Canvas.Children.Clear();
             ResizeCanvas();
@@ -27,13 +28,13 @@ namespace MazeGenerator.Drawing
                 rect.Stroke = new SolidColorBrush(Colors.Blue);
                 rect.Fill = new SolidColorBrush(Colors.Blue);
                 Canvas.Children.Add(rect);
-                Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
 
-                Thread.Sleep(sleepTime);
+                await Task.Delay(sleepTime);
 
                 rect.Stroke = new SolidColorBrush(Colors.White);
                 rect.Fill = new SolidColorBrush(Colors.White);
-                Canvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => { }));
+                await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
             }
         }
     }

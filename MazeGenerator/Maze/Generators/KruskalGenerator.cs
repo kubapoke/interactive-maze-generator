@@ -6,7 +6,7 @@ namespace MazeGenerator.Maze.Generators
 {
     public class KruskalGenerator : Generator
     {
-        public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
+        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<(int u, int v)> potentialEdges = GeneratePotentialEdges(width, height);
@@ -22,15 +22,11 @@ namespace MazeGenerator.Maze.Generators
                     mazeGraph[potentialEdge.u].Add(potentialEdge.v);
                     mazeGraph[potentialEdge.v].Add(potentialEdge.u);
 
-                    if (draw)
-                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width));
+                    drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(potentialEdge.u, width), CoordinateConverters.VertexToCoords(potentialEdge.v, width));
                 }
             }
 
-            if (draw)
-                drawer.DrawMaze();
-
-            return mazeGraph;
+            return (mazeGraph, drawer);
         }
     }
 }

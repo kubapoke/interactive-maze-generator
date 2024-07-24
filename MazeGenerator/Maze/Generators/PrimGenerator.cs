@@ -10,7 +10,7 @@ namespace MazeGenerator.Maze.Generators
 {
     public class PrimGenerator : Generator
     {
-        public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
+        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
@@ -40,8 +40,7 @@ namespace MazeGenerator.Maze.Generators
                     mazeGraph[candidateEdge.u].Add(candidateEdge.v);
                     mazeGraph[candidateEdge.v].Add(candidateEdge.u);
 
-                    if (draw)
-                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(candidateEdge.u, width), CoordinateConverters.VertexToCoords(candidateEdge.v, width));
+                    drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(candidateEdge.u, width), CoordinateConverters.VertexToCoords(candidateEdge.v, width));
 
                     foreach(var neighbor in fullMazeGraph[candidateEdge.v])
                     {
@@ -55,10 +54,7 @@ namespace MazeGenerator.Maze.Generators
                 candidateEdges.Remove(candidateEdge);
             }
 
-            if (draw)
-                drawer.DrawMaze();
-
-            return mazeGraph;
+            return (mazeGraph, drawer);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace MazeGenerator.Maze.Generators
 {
     public class WilsonGenerator : Generator
     {
-        public override List<int>[] GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish, bool draw = false)
+        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
@@ -32,8 +32,7 @@ namespace MazeGenerator.Maze.Generators
                     unusedVertices.Add(i);
             }
 
-            if (draw)
-                drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(startVertex, width), (-1, -1));
+            drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(startVertex, width), (-1, -1));
 
             while(visitedVertices < width * height)
             {
@@ -77,8 +76,7 @@ namespace MazeGenerator.Maze.Generators
                         inCurrentPath[nextVertex] = true;
                     }
 
-                    if (draw)
-                        drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
+                    drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(currentVertex, width), CoordinateConverters.VertexToCoords(nextVertex, width));
 
                     prevVertex = currentVertex;
                     currentVertex = nextVertex;
@@ -105,10 +103,7 @@ namespace MazeGenerator.Maze.Generators
                 unusedVertices.Remove(lastVertex);
             }
 
-            if (draw)
-                drawer.DrawMaze();
-
-            return mazeGraph;
+            return (mazeGraph, drawer);
         }
     }
 }
