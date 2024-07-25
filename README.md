@@ -24,7 +24,7 @@ A similar menu shall be added for maze solving in the near future.
 2. Maze visualization
     - [X] Create the basic maze vizualization tools
     - [X] Create the tools for accurately visualizing the creation process of different maze generating algorithms
-    - [ ] Create the tools for accurately visualizing the creation process of different maze solving algorithms
+    - [X] Create the tools for accurately visualizing the creation process of different maze solving algorithms
     - [ ] Implement dynamic maze scaling, allow for window manipulation for better user experience
     - [ ] Refine the maze graphics, get rid of the unwanted artifacts
 3. Maze generation algorithms
@@ -35,7 +35,7 @@ A similar menu shall be added for maze solving in the near future.
     - [X] Aldous-Broder
     - [ ] ...
 4. Maze solving algorithms
-    - [ ] DFS
+    - [X] DFS
     - [ ] BFS
     - [ ] A*
     - [ ] ...

@@ -96,6 +96,33 @@ namespace MazeGenerator.Drawing
             return rect;
         }
 
+        protected Line GetConnectionLine((int x, int y) u, (int x, int y) v)
+        {
+            Line line = new Line();
+
+            double outlinedWidthHeight = Canvas.Width / (double)Width;
+            line.StrokeThickness = outlinedWidthHeight / 4;
+
+            if (u.x == v.x && Math.Abs(u.y - v.y) == 1)
+            {
+                line.X1 = line.X2 = ((double)u.x + 0.5) * outlinedWidthHeight;
+                line.Y1 = ((double)u.y + 0.5) * outlinedWidthHeight;
+                line.Y2 = ((double)v.y + 0.5) * outlinedWidthHeight;
+            }
+            else if (u.y == v.y && Math.Abs(u.x - v.x) == 1)
+            {
+                line.Y1 = line.Y2 = ((double)u.y + 0.5) * outlinedWidthHeight;
+                line.X1 = ((double)u.x + 0.5) * outlinedWidthHeight;
+                line.X2 = ((double)v.x + 0.5) * outlinedWidthHeight;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            return line;
+        }
+
         protected void ConfirmPendingRectangles()
         {
             foreach(var child in Canvas.Children)
@@ -136,6 +163,24 @@ namespace MazeGenerator.Drawing
         {
             ShouldFinishDrawing = true;
             await Application.Current.Dispatcher.InvokeAsync(async () => await FinishMazeDrawing());
+        }
+
+        protected static void RemoveLinesFromCanvas(Canvas canvas)
+        {
+            List<Line> linesToRemove = new List<Line>();
+
+            foreach(var child in canvas.Children)
+            {
+                if(child is Line)
+                {
+                    linesToRemove.Add(child as Line);
+                }
+            }
+
+            foreach(var line in linesToRemove)
+            {
+                canvas.Children.Remove(line);
+            }
         }
     }
 }

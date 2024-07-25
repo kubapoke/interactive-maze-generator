@@ -64,10 +64,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Drawing\Drawer.cs" />
-    <Compile Include="Drawing\MazeDrawing\LoopErasureDrawer.cs" />
-    <Compile Include="Drawing\MazeDrawing\SequentialDrawer.cs" />
-    <Compile Include="Drawing\MazeDrawing\SequentialDrawerWithMisses.cs" />
-    <Compile Include="Drawing\MazeDrawing\TracebackDrawer.cs" />
+    <Compile Include="Drawing\MazeDrawing\LoopErasureMazeDrawer.cs" />
+    <Compile Include="Drawing\MazeDrawing\SequentialMazeDrawer.cs" />
+    <Compile Include="Drawing\MazeDrawing\SequentialMazeDrawerWithMisses.cs" />
+    <Compile Include="Drawing\MazeDrawing\TracebackMazeDrawer.cs" />
+    <Compile Include="Drawing\SolutionDrawing\TracebackSolutionDrawer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -84,6 +85,8 @@
     <Compile Include="Maze\Helpers\Shuffler.cs" />
     <Compile Include="Maze\Helpers\UnionFind.cs" />
     <Compile Include="Maze\Maze.cs" />
+    <Compile Include="Maze\Solvers\DFSSolver.cs" />
+    <Compile Include="Maze\Solvers\Solver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

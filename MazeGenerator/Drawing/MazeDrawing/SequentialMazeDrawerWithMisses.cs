@@ -13,9 +13,9 @@ using System.Windows.Threading;
 
 namespace MazeGenerator.Drawing
 {
-    public class SequentialDrawerWithMisses : Drawer
+    public class SequentialMazeDrawerWithMisses : Drawer
     {
-        public SequentialDrawerWithMisses(Canvas canvas, int width, int height) : base(canvas, width, height) { }
+        public SequentialMazeDrawerWithMisses(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
         public override async Task DrawAsync(int sleepTime = 100)
         {

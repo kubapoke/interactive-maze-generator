@@ -1,5 +1,6 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Generators;
+using MazeGenerator.Maze.Solvers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,8 @@ namespace MazeGenerator
         public event PropertyChangedEventHandler PropertyChanged;
 
         public List<NamedGenerator> GeneratorList { get; set; }
+        public List<NamedSolver> SolverList { get; set; }
+
         public bool IsGenerating
         {
             get => _IsGenerating;
@@ -70,6 +73,9 @@ namespace MazeGenerator
             new NamedGenerator { Name = "Wilson", Generator = new WilsonGenerator() },
             new NamedGenerator { Name = "Aldous-Broder", Generator = new AldousBroderGenerator() } };
 
+            SolverList = new List<NamedSolver>
+            { new NamedSolver { Name = "DFS", Solver = new DFSSolver() } };
+
             DataContext = this;
         }
 
@@ -77,6 +83,12 @@ namespace MazeGenerator
         {
             public string Name { get; set; }
             public Generator Generator { get; set; }
+        }
+
+        public struct NamedSolver
+        {
+            public string Name { get; set; }
+            public Solver Solver { get; set; }
         }
 
         private async void GenerateButton_Click(object sender, RoutedEventArgs e)
@@ -92,6 +104,12 @@ namespace MazeGenerator
 
                 IsGenerating = false;
                 IsGenerated = true;
+
+                StartXTextBox.Text = "1";
+                StartYTextBox.Text = "1";
+
+                FinishXTextBox.Text = WidthTextBox.Text;
+                FinishYTextBox.Text = HeightTextBox.Text;
             }
             catch (System.Exception ex)
             {
@@ -104,6 +122,24 @@ namespace MazeGenerator
         private async void FinishButton_Click(object sender, RoutedEventArgs e)
         {
             await Drawer.FinishDrawing();
+        }
+
+        private async void SolveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                IsGenerating = true;
+                IsGenerated = false;
+
+                await Maze.SolveAsync(SolverComboBox.SelectedValue as Solver);
+
+                IsGenerating = false;
+                IsGenerated = true;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 

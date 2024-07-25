@@ -11,18 +11,18 @@ namespace MazeGenerator.Maze.Generators
 {
     public class WilsonGenerator : Generator
     {
-        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
+        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
             List<int> unusedVertices = new List<int>();
-            LoopErasureDrawer drawer = new LoopErasureDrawer(MainWindow.Canvas, width, height);
+            LoopErasureMazeDrawer drawer = new LoopErasureMazeDrawer(MainWindow.Canvas, width, height);
             bool[] visited = new bool[fullMazeGraph.Length];
             bool[] inCurrentPath = new bool[fullMazeGraph.Length];
             Stack<int> vertexStack = new Stack<int>();
 
             int startVertex = MainWindow.Rng.Next(height * width);
-            int finishVertex = CoordinateConverters.CoordsToVertex(finish, width);
+            
             int visitedVertices = 1;
             visited[startVertex] = true;
 

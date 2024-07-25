@@ -90,7 +90,7 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Solver:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0" Margin="3"/>
-                    <ComboBox Name="SolverComboBox" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" IsEnabled="False"/>
+                    <ComboBox Name="SolverComboBox" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding SolverList}" DisplayMemberPath="Name" SelectedValuePath="Solver" Width="Auto" SelectedIndex="0" Margin="3" IsEnabled="{Binding IsGenerated}"/>
 
                     <Label Content="Start:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1" Margin="3"/>
                     <Grid Grid.Column="1" Grid.Row="1">
@@ -103,9 +103,9 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" Content="x:" HorizontalAlignment="Right"/>
-                        <TextBox x:Name="StartXTextBox" Grid.Column="1"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" IsEnabled="False"/>
+                        <TextBox x:Name="StartXTextBox" Grid.Column="1"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" Text="0" IsEnabled="False"/>
                         <Label Grid.Column="2" Content="y:" HorizontalAlignment="Right"/>
-                        <TextBox x:Name="StartYTextBox" Grid.Column="3"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" IsEnabled="False"/>
+                        <TextBox x:Name="StartYTextBox" Grid.Column="3"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" Text="0" IsEnabled="False"/>
                         <Button x:Name="PickStartButtom" Grid.Column="4" Content="Pick..." Height="30" HorizontalAlignment="Right" IsEnabled="False"/>
                     </Grid>
 
@@ -120,13 +120,13 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" Content="x:" HorizontalAlignment="Right"/>
-                        <TextBox x:Name="FinishXTextBox" Grid.Column="1"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" IsEnabled="False"/>
+                        <TextBox x:Name="FinishXTextBox" Grid.Column="1"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" Text="0" IsEnabled="False"/>
                         <Label Grid.Column="2" Content="y:" HorizontalAlignment="Right"/>
-                        <TextBox x:Name="FinishYTextBox" Grid.Column="3"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" IsEnabled="False"/>
+                        <TextBox x:Name="FinishYTextBox" Grid.Column="3"  Width="25" Margin="5" HorizontalAlignment="Left" TextAlignment="Center" MaxLength="2" Text="0" IsEnabled="False"/>
                         <Button x:Name="PickFinisjButtom" Grid.Column="4" Content="Pick..." Height="30" HorizontalAlignment="Right" IsEnabled="False"/>
                     </Grid>
 
-                    <Button x:Name="SolveButton" Grid.Row="3" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Content="Generate" Width="80" Height="35" Margin="4" IsEnabled="False"/>
+                    <Button x:Name="SolveButton" Grid.Row="3" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Content="Solve" Width="80" Height="35" Margin="4" Click="SolveButton_Click" IsEnabled="{Binding IsGenerated}"/>
                 </Grid>
             </GroupBox>
         </Grid>

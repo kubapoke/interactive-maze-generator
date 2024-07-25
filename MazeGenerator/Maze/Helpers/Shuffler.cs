@@ -16,5 +16,11 @@ namespace MazeGenerator.Maze.Helpers
                 list[toSwap] = temp;
             }
         }
+
+        public static void ArrayFisherYatesShuffle<T>(IList<T>[] lists)
+        {
+            foreach (var list in lists)
+                FisherYatesShuffle(list);
+        }
     }
 }

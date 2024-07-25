@@ -6,7 +6,7 @@ namespace MazeGenerator.Maze.Generators
 {
     public abstract class Generator
     {
-        public abstract (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish);
+        public abstract (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height);
         protected static List<int>[] InitializeNeighborLists(int width, int height)
         {
             int n = width * height;
@@ -65,8 +65,7 @@ namespace MazeGenerator.Maze.Generators
 
             if (randomizeOrder)
             {
-                for (int i = 0; i < fullMazeGraph.Length; i++)
-                    Shuffler.FisherYatesShuffle(fullMazeGraph[i]);
+                Shuffler.ArrayFisherYatesShuffle(fullMazeGraph);
             }
 
             return fullMazeGraph;

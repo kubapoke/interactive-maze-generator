@@ -13,9 +13,9 @@ using System.Windows;
 
 namespace MazeGenerator.Drawing
 {
-    public class LoopErasureDrawer : Drawer
+    public class LoopErasureMazeDrawer : Drawer
     {
-        public LoopErasureDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
+        public LoopErasureMazeDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
         public override async Task DrawAsync(int sleepTime = 50)
         {

@@ -12,9 +12,9 @@ using System.Windows;
 
 namespace MazeGenerator.Drawing
 {
-    public class SequentialDrawer : Drawer
+    public class SequentialMazeDrawer : Drawer
     {
-        public SequentialDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
+        public SequentialMazeDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
         public override async Task DrawAsync(int sleepTime = 100)
         {

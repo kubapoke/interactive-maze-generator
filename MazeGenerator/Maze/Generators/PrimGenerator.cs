@@ -10,23 +10,21 @@ namespace MazeGenerator.Maze.Generators
 {
     public class PrimGenerator : Generator
     {
-        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height, (int x, int y) start, (int x, int y) finish)
+        public override (List<int>[] maze, Drawer drawer) GenerateMaze(int width, int height)
         {
             List<int>[] mazeGraph = InitializeNeighborLists(width, height);
             List<int>[] fullMazeGraph = GenerateFullMazeGraph(width, height);
-            SequentialDrawer drawer = new SequentialDrawer(MainWindow.Canvas, width, height);
+            SequentialMazeDrawer drawer = new SequentialMazeDrawer(MainWindow.Canvas, width, height);
             bool[] visited = new bool[fullMazeGraph.Length];
             List<(int u, int v)> candidateEdges = new List<(int u, int v)>();
 
             int startVertex = MainWindow.Rng.Next(height * width);
-            int finishVertex = CoordinateConverters.CoordsToVertex(finish, width);
+            
             visited[startVertex] = true;
 
             foreach(int neighbor in fullMazeGraph[startVertex])
             {
                 candidateEdges.Add((startVertex, neighbor));
-                if (startVertex == finishVertex)
-                    break;
             }  
 
             while(candidateEdges.Count > 0)

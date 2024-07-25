@@ -13,9 +13,9 @@ using System.Windows;
 
 namespace MazeGenerator.Drawing
 {
-    public class TracebackDrawer : Drawer
+    public class TracebackMazeDrawer : Drawer
     {
-        public TracebackDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
+        public TracebackMazeDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
 
         public override async Task DrawAsync(int sleepTime = 50)
         {
