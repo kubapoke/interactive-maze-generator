@@ -106,14 +106,14 @@ namespace MazeGenerator.Drawing
             if (u.x == v.x && Math.Abs(u.y - v.y) == 1)
             {
                 line.X1 = line.X2 = ((double)u.x + 0.5) * outlinedWidthHeight;
-                line.Y1 = ((double)u.y + 0.5) * outlinedWidthHeight;
-                line.Y2 = ((double)v.y + 0.5) * outlinedWidthHeight;
+                line.Y1 = ((double)Math.Min(u.y, v.y) + 0.5) * outlinedWidthHeight - 0.5 * line.StrokeThickness;
+                line.Y2 = ((double)Math.Max(u.y, v.y) + 0.5) * outlinedWidthHeight + 0.5 * line.StrokeThickness;
             }
             else if (u.y == v.y && Math.Abs(u.x - v.x) == 1)
             {
                 line.Y1 = line.Y2 = ((double)u.y + 0.5) * outlinedWidthHeight;
-                line.X1 = ((double)u.x + 0.5) * outlinedWidthHeight;
-                line.X2 = ((double)v.x + 0.5) * outlinedWidthHeight;
+                line.X1 = ((double)Math.Min(u.x, v.x) + 0.5) * outlinedWidthHeight - 0.5 * line.StrokeThickness;
+                line.X2 = ((double)Math.Max(u.x, v.x) + 0.5) * outlinedWidthHeight + 0.5 * line.StrokeThickness;
             }
             else
             {
