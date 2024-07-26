@@ -68,6 +68,7 @@
     <Compile Include="Drawing\MazeDrawing\SequentialMazeDrawer.cs" />
     <Compile Include="Drawing\MazeDrawing\SequentialMazeDrawerWithMisses.cs" />
     <Compile Include="Drawing\MazeDrawing\TracebackMazeDrawer.cs" />
+    <Compile Include="Drawing\SolutionDrawing\ParallelPathSolutionDrawer.cs" />
     <Compile Include="Drawing\SolutionDrawing\TracebackSolutionDrawer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -85,6 +86,7 @@
     <Compile Include="Maze\Helpers\Shuffler.cs" />
     <Compile Include="Maze\Helpers\UnionFind.cs" />
     <Compile Include="Maze\Maze.cs" />
+    <Compile Include="Maze\Solvers\BFSSolver.cs" />
     <Compile Include="Maze\Solvers\DFSSolver.cs" />
     <Compile Include="Maze\Solvers\Solver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

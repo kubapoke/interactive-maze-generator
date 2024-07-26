@@ -36,7 +36,7 @@ A similar menu shall be added for maze solving in the near future.
     - [ ] ...
 4. Maze solving algorithms
     - [X] DFS
-    - [ ] BFS
+    - [X] BFS
     - [ ] A*
     - [ ] ...
 5. Miscalleanous

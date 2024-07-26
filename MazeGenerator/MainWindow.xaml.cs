@@ -74,7 +74,8 @@ namespace MazeGenerator
             new NamedGenerator { Name = "Aldous-Broder", Generator = new AldousBroderGenerator() } };
 
             SolverList = new List<NamedSolver>
-            { new NamedSolver { Name = "DFS", Solver = new DFSSolver() } };
+            { new NamedSolver { Name = "DFS", Solver = new DFSSolver() },
+            new NamedSolver {Name = "BFS", Solver = new BFSSolver() } };
 
             DataContext = this;
         }

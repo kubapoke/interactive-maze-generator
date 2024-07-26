@@ -182,5 +182,17 @@ namespace MazeGenerator.Drawing
                 canvas.Children.Remove(line);
             }
         }
+
+        protected void GrayOutCurrentLines()
+        {
+            foreach (var child in Canvas.Children)
+            {
+                if (child is Line)
+                {
+                    var line = child as Line;
+                    line.Stroke = new SolidColorBrush(Colors.LightGray);
+                }
+            }
+        }
     }
 }

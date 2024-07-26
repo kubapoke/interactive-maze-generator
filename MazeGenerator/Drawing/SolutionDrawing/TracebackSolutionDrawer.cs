@@ -13,7 +13,7 @@ namespace MazeGenerator.Drawing.SolutionDrawing
 {
     public class TracebackSolutionDrawer : Drawer
     {
-        public TracebackSolutionDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
+        public TracebackSolutionDrawer(Canvas canvas, int width, int height, bool? showPreviouslyTraversedPath = true) : base(canvas, width, height) { }
 
         public override async Task DrawAsync(int sleepTime = 50)
         {
@@ -31,8 +31,8 @@ namespace MazeGenerator.Drawing.SolutionDrawing
                 while(edgeStack.Count > 0 && edgeStack.Peek().v != edge.u)
                 {
                     edgeStack.Pop();
-                    Canvas.Children.Remove(lineStack.Pop());
-
+                    lineStack.Pop().Stroke = new SolidColorBrush(Colors.LightGray);
+                    
                     await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
                     await Task.Delay(sleepTime);
                 }
