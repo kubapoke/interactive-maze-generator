@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Windows;
 
 namespace MazeGenerator.Drawing.SolutionDrawing
 {
     public class TracebackSolutionDrawer : Drawer
     {
-        public TracebackSolutionDrawer(Canvas canvas, int width, int height, bool? showPreviouslyTraversedPath = true) : base(canvas, width, height) { }
+        public TracebackSolutionDrawer(Canvas canvas, int width, int height, bool? showPreviouslyTraversedPath = true) : base(canvas, width, height)
+        {
+            IsSolutionDrawer = true;
+        }
 
         public override async Task DrawAsync(int sleepTime = 50)
         {
@@ -25,14 +23,26 @@ namespace MazeGenerator.Drawing.SolutionDrawing
 
             foreach (var edge in EdgesToDraw)
             {
+                if (ShouldFinishDrawing)
+                {
+                    ShouldFinishDrawing = false;
+                    return;
+                }
+
                 Line line = GetConnectionLine(edge.u, edge.v);
                 line.Stroke = new SolidColorBrush(Colors.Orange);
 
-                while(edgeStack.Count > 0 && edgeStack.Peek().v != edge.u)
+                while (edgeStack.Count > 0 && edgeStack.Peek().v != edge.u)
                 {
+                    if (ShouldFinishDrawing)
+                    {
+                        ShouldFinishDrawing = false;
+                        return;
+                    }
+
                     edgeStack.Pop();
                     lineStack.Pop().Stroke = new SolidColorBrush(Colors.LightGray);
-                    
+
                     await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
                     await Task.Delay(sleepTime);
                 }

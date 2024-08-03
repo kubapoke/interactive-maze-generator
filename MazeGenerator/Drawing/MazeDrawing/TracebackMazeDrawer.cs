@@ -48,7 +48,7 @@ namespace MazeGenerator.Drawing
                 {
                     if (ShouldFinishDrawing)
                     {
-                        await FinishMazeDrawing();
+                        await _FinishDrawing();
                         return;
                     }
 
@@ -80,7 +80,7 @@ namespace MazeGenerator.Drawing
             {
                 if (ShouldFinishDrawing)
                 {
-                    await FinishMazeDrawing();
+                    await _FinishDrawing();
                     return;
                 }
 

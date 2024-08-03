@@ -1,14 +1,8 @@
-﻿using MazeGenerator.Maze.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Threading.Tasks;
 
 namespace MazeGenerator.Drawing
 {
@@ -18,6 +12,7 @@ namespace MazeGenerator.Drawing
         protected int Width, Height;
         protected List<((int x, int y) u, (int x, int y) v)> EdgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
         protected bool ShouldFinishDrawing = false;
+        protected bool IsSolutionDrawer { get; init; } = false;
 
         public static event EventHandler FinishDrawingEventHandler;
 
@@ -125,9 +120,9 @@ namespace MazeGenerator.Drawing
 
         protected void ConfirmPendingRectangles()
         {
-            foreach(var child in Canvas.Children)
+            foreach (var child in Canvas.Children)
             {
-                if(child is Rectangle)
+                if (child is Rectangle)
                 {
                     var rect = child as Rectangle;
                     rect.Stroke = new SolidColorBrush(Colors.White);
@@ -138,17 +133,52 @@ namespace MazeGenerator.Drawing
         }
         public abstract Task DrawAsync(int sleepTime = 100);
 
-        protected virtual async Task FinishMazeDrawing()
+        protected virtual async Task _FinishDrawing()
         {
-            Canvas.Children.Clear();
             ResizeCanvas();
 
-            foreach(var edge in EdgesToDraw)
+            if (!IsSolutionDrawer)
             {
-                var rect = GetConnectionRectangle(edge.u, edge.v);
-                rect.Fill = new SolidColorBrush(Colors.White);
-                rect.Stroke = new SolidColorBrush(Colors.White);
-                Canvas.Children.Add(rect);
+                Canvas.Children.Clear();
+
+                foreach (var edge in EdgesToDraw)
+                {
+                    var rect = GetConnectionRectangle(edge.u, edge.v);
+                    rect.Fill = new SolidColorBrush(Colors.White);
+                    rect.Stroke = new SolidColorBrush(Colors.White);
+                    Canvas.Children.Add(rect);
+                }
+            }
+            else
+            {
+                RemoveLinesFromCanvas(Canvas);
+
+                (int x, int y)[,] prev = new (int x, int y)[Width, Height];
+                Line[,] lines = new Line[Width, Height];
+
+                foreach (var edge in EdgesToDraw)
+                {
+                    var line = GetConnectionLine(edge.u, edge.v);
+                    line.Stroke = new SolidColorBrush(Colors.LightGray);
+                    Canvas.Children.Add(line);
+
+                    prev[edge.v.x, edge.v.y] = (edge.u.x, edge.u.y);
+                    lines[edge.v.x, edge.v.y] = line;
+                }
+
+                var vertex = EdgesToDraw[EdgesToDraw.Count - 1].v;
+
+                while (lines[vertex.x, vertex.y] != null)
+                {
+                    var line = lines[vertex.x, vertex.y];
+
+                    Canvas.Children.Remove(line);
+                    Canvas.Children.Add(line);
+
+                    line.Stroke = new SolidColorBrush(Colors.Orange);
+
+                    vertex = prev[vertex.x, vertex.y];
+                }
             }
 
             await Application.Current.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
@@ -162,22 +192,22 @@ namespace MazeGenerator.Drawing
         protected async void OnFinishDrawing(object sender, EventArgs e)
         {
             ShouldFinishDrawing = true;
-            await Application.Current.Dispatcher.InvokeAsync(async () => await FinishMazeDrawing());
+            await Application.Current.Dispatcher.InvokeAsync(async () => await _FinishDrawing());
         }
 
         protected static void RemoveLinesFromCanvas(Canvas canvas)
         {
             List<Line> linesToRemove = new List<Line>();
 
-            foreach(var child in canvas.Children)
+            foreach (var child in canvas.Children)
             {
-                if(child is Line)
+                if (child is Line)
                 {
                     linesToRemove.Add(child as Line);
                 }
             }
 
-            foreach(var line in linesToRemove)
+            foreach (var line in linesToRemove)
             {
                 canvas.Children.Remove(line);
             }

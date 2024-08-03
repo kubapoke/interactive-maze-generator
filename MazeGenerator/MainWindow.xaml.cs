@@ -1,11 +1,8 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Generators;
 using MazeGenerator.Maze.Solvers;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,8 +15,10 @@ namespace MazeGenerator
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public Maze.Maze Maze;
-        private bool _IsGenerating = false;
+        private bool _IsBusy = false;
         private bool _IsGenerated = false;
+        private bool _CanFinishGenerating = false;
+        private bool _CanFinishSolving = false;
         public static Canvas Canvas;
         public static DockPanel DockPanel;
         public static Random Rng = new Random();
@@ -28,15 +27,15 @@ namespace MazeGenerator
         public List<NamedGenerator> GeneratorList { get; set; }
         public List<NamedSolver> SolverList { get; set; }
 
-        public bool IsGenerating
+        public bool IsBusy
         {
-            get => _IsGenerating;
+            get => _IsBusy;
             set
             {
-                if(_IsGenerating != value)
+                if (_IsBusy != value)
                 {
-                    _IsGenerating = value;
-                    OnPropertyChanged(nameof(IsGenerating));
+                    _IsBusy = value;
+                    OnPropertyChanged(nameof(IsBusy));
                 }
             }
         }
@@ -46,10 +45,36 @@ namespace MazeGenerator
             get => _IsGenerated;
             set
             {
-                if(_IsGenerated != value)
+                if (_IsGenerated != value)
                 {
                     _IsGenerated = value;
                     OnPropertyChanged(nameof(IsGenerated));
+                }
+            }
+        }
+
+        public bool CanFinishGenerating
+        {
+            get => _CanFinishGenerating;
+            set
+            {
+                if (_CanFinishGenerating != value)
+                {
+                    _CanFinishGenerating = value;
+                    OnPropertyChanged(nameof(CanFinishGenerating));
+                }
+            }
+        }
+
+        public bool CanFinishSolving
+        {
+            get => _CanFinishSolving;
+            set
+            {
+                if (_CanFinishSolving != value)
+                {
+                    _CanFinishSolving = value;
+                    OnPropertyChanged(nameof(CanFinishSolving));
                 }
             }
         }
@@ -99,13 +124,15 @@ namespace MazeGenerator
             {
                 Maze = new Maze.Maze(int.Parse(WidthTextBox.Text), int.Parse(HeightTextBox.Text));
 
-                IsGenerating = true;
+                IsBusy = true;
                 IsGenerated = false;
+                CanFinishGenerating = true;
 
                 await Maze.GenerateAsync(GeneratorComboBox.SelectedValue as Generator);
 
-                IsGenerating = false;
+                IsBusy = false;
                 IsGenerated = true;
+                CanFinishGenerating = false;
 
                 StartXTextBox.Text = "1";
                 StartYTextBox.Text = "1";
@@ -117,12 +144,13 @@ namespace MazeGenerator
             {
                 MessageBox.Show(ex.Message);
 
-                IsGenerating = false;
+                IsBusy = false;
             }
         }
 
-        private async void FinishButton_Click(object sender, RoutedEventArgs e)
+        private async void FinishGeneratingButton_Click(object sender, RoutedEventArgs e)
         {
+            CanFinishGenerating = false;
             await Drawer.FinishDrawing();
         }
 
@@ -130,18 +158,26 @@ namespace MazeGenerator
         {
             try
             {
-                IsGenerating = true;
+                IsBusy = true;
                 IsGenerated = false;
+                CanFinishSolving = true;
 
                 await Maze.SolveAsync(SolverComboBox.SelectedValue as Solver);
 
-                IsGenerating = false;
+                IsBusy = false;
                 IsGenerated = true;
+                CanFinishSolving = false;
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async void FinishSolvingButton_Click(object sender, RoutedEventArgs e)
+        {
+            CanFinishSolving = false;
+            await Drawer.FinishDrawing();
         }
     }
 

@@ -127,7 +127,7 @@ namespace MazeGenerator.Drawing
             }
         }
 
-        protected override async Task FinishMazeDrawing()
+        protected override async Task _FinishDrawing()
         {
             Canvas.Children.Clear();
             ResizeCanvas();

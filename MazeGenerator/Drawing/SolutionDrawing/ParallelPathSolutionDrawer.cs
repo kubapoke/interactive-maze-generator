@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Windows;
-using System.Windows.Media;
 
 namespace MazeGenerator.Drawing.SolutionDrawing
 {
     public class ParallelPathSolutionDrawer : Drawer
     {
-        public ParallelPathSolutionDrawer(Canvas canvas, int width, int height) : base(canvas, width, height) { }
- 
+        public ParallelPathSolutionDrawer(Canvas canvas, int width, int height) : base(canvas, width, height)
+        {
+            IsSolutionDrawer = true;
+        }
+
         public override async Task DrawAsync(int sleepTime = 100)
         {
             RemoveLinesFromCanvas(Canvas);
@@ -26,6 +23,12 @@ namespace MazeGenerator.Drawing.SolutionDrawing
 
             foreach (var edge in EdgesToDraw)
             {
+                if (ShouldFinishDrawing)
+                {
+                    ShouldFinishDrawing = false;
+                    return;
+                }
+
                 Line line = GetConnectionLine(edge.u, edge.v);
                 prev[edge.v.x, edge.v.y] = edge.u;
                 lines[edge.v.x, edge.v.y] = line;
@@ -37,6 +40,12 @@ namespace MazeGenerator.Drawing.SolutionDrawing
 
                 while (lines[vertex.x, vertex.y] != null)
                 {
+                    if (ShouldFinishDrawing)
+                    {
+                        ShouldFinishDrawing = false;
+                        return;
+                    }
+
                     line = lines[vertex.x, vertex.y];
 
                     Canvas.Children.Remove(line);

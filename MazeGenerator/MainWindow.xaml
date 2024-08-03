@@ -27,7 +27,7 @@
             </Menu>
         </DockPanel>
 
-        <Canvas x:Name="MazeCanvas" Grid.Row="1" Background="Black" Margin="3"/>
+        <Canvas x:Name="MazeCanvas" Grid.Row="1" Width="0" Height="0"  Background="Black" Margin="3"/>
 
 
         <Grid Grid.Row="1" Grid.Column="1">
@@ -49,7 +49,7 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Generator:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0" Margin="3"/>
-                    <ComboBox Name="GeneratorComboBox" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding GeneratorList}" DisplayMemberPath="Name" SelectedValuePath="Generator" Width="Auto" SelectedIndex="0" Margin="3" IsEnabled="{Binding IsGenerating, Converter={StaticResource reverseBoolConverter}}"/>
+                    <ComboBox Name="GeneratorComboBox" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding GeneratorList}" DisplayMemberPath="Name" SelectedValuePath="Generator" Width="Auto" SelectedIndex="0" Margin="3" IsEnabled="{Binding IsBusy, Converter={StaticResource reverseBoolConverter}}"/>
 
                     <Label Content="Size:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1" Margin="3"/>
                     <Grid  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1">
@@ -59,9 +59,9 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="WidthTextBox" Grid.Column="0" MaxLength="2" Width="25" Margin="5" Text="10" TextAlignment="Center" IsEnabled="{Binding IsGenerating, Converter={StaticResource reverseBoolConverter}}"/>
+                        <TextBox x:Name="WidthTextBox" Grid.Column="0" MaxLength="2" Width="25" Margin="5" Text="10" TextAlignment="Center" IsEnabled="{Binding IsBusy, Converter={StaticResource reverseBoolConverter}}"/>
                         <Label Grid.Column="1" Content="x" />
-                        <TextBox x:Name="HeightTextBox" Grid.Column="2" MaxLength="2" Width="25" Margin="5" Text="10" TextAlignment="Center" IsEnabled="{Binding IsGenerating, Converter={StaticResource reverseBoolConverter}}"/>
+                        <TextBox x:Name="HeightTextBox" Grid.Column="2" MaxLength="2" Width="25" Margin="5" Text="10" TextAlignment="Center" IsEnabled="{Binding IsBusy, Converter={StaticResource reverseBoolConverter}}"/>
                     </Grid>
 
                     <Grid Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" HorizontalAlignment="Stretch">
@@ -70,8 +70,8 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button x:Name="GenerateButton" Grid.Column="0" HorizontalAlignment="Right" Content="Generate" Width="80" Height="35" Margin="4" Click="GenerateButton_Click" IsEnabled="{Binding IsGenerating, Converter={StaticResource reverseBoolConverter}}"/>
-                        <Button x:Name="FinishButton" Grid.Column="1" HorizontalAlignment="Left" Content="Finish" Width="80" Height="35" Margin="4" Click="FinishButton_Click" IsEnabled="{Binding IsGenerating}"/>
+                        <Button x:Name="GenerateButton" Grid.Column="0" HorizontalAlignment="Right" Content="Generate" Width="80" Height="35" Margin="4" Click="GenerateButton_Click" IsEnabled="{Binding IsBusy, Converter={StaticResource reverseBoolConverter}}"/>
+                        <Button x:Name="FinishGeneratingButton" Grid.Column="1" HorizontalAlignment="Left" Content="Finish" Width="80" Height="35" Margin="4" Click="FinishGeneratingButton_Click" IsEnabled="{Binding CanFinishGenerating}"/>
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -126,7 +126,15 @@
                         <Button x:Name="PickFinisjButtom" Grid.Column="4" Content="Pick..." Height="30" HorizontalAlignment="Right" IsEnabled="False"/>
                     </Grid>
 
-                    <Button x:Name="SolveButton" Grid.Row="3" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Content="Solve" Width="80" Height="35" Margin="4" Click="SolveButton_Click" IsEnabled="{Binding IsGenerated}"/>
+                    <Grid Grid.Row="3" Grid.ColumnSpan="2" Height="Auto" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="SolveButton" Grid.Column="0" HorizontalAlignment="Right" Content="Solve" Width="80" Height="35" Margin="4" Click="SolveButton_Click" IsEnabled="{Binding IsGenerated}"/>
+                        <Button x:Name="FinishSolvingButton" Grid.Column="1" HorizontalAlignment="Left" Content="Finish" Width="80" Height="35" Click="FinishSolvingButton_Click" IsEnabled="{Binding CanFinishSolving}"/>
+                    </Grid>
                 </Grid>
             </GroupBox>
         </Grid>
