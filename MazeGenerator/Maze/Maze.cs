@@ -1,12 +1,6 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Generators;
 using MazeGenerator.Maze.Solvers;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace MazeGenerator.Maze
 {
@@ -32,6 +26,16 @@ namespace MazeGenerator.Maze
             Finish = (width - 1, height - 1);
 
             Solution = new List<int>();
+        }
+
+        public void UpdateStart(int x, int y)
+        {
+            Start = (x, y);
+        }
+
+        public void UpdateFinish(int x, int y)
+        {
+            Finish = (x, y);
         }
 
         public async Task GenerateAsync(Generator generator)

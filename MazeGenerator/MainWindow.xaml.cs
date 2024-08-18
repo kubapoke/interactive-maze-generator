@@ -158,6 +158,9 @@ namespace MazeGenerator
         {
             try
             {
+                Maze.UpdateStart(int.Parse(StartXTextBox.Text) - 1, int.Parse(StartYTextBox.Text) - 1);
+                Maze.UpdateFinish(int.Parse(FinishXTextBox.Text) - 1, int.Parse(FinishYTextBox.Text) - 1);
+
                 IsBusy = true;
                 IsGenerated = false;
                 CanFinishSolving = true;
