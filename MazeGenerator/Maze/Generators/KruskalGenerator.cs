@@ -1,6 +1,5 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Helpers;
-using System.Collections.Generic;
 
 namespace MazeGenerator.Maze.Generators
 {

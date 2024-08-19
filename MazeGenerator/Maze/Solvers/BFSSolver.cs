@@ -1,12 +1,6 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Drawing.SolutionDrawing;
 using MazeGenerator.Maze.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MazeGenerator.Maze.Solvers
 {
@@ -29,16 +23,16 @@ namespace MazeGenerator.Maze.Solvers
 
             Shuffler.ArrayFisherYatesShuffle(mazeGraph);
 
-            while(solutionQueue.Count > 0 && !visited[finishVertex])
+            while (solutionQueue.Count > 0 && !visited[finishVertex])
             {
                 int currentVertex = solutionQueue.Dequeue();
                 visited[currentVertex] = true;
 
-                if(currentVertex != startVertex)
+                if (currentVertex != startVertex)
                     drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(prev[currentVertex], width), CoordinateConverters.VertexToCoords(currentVertex, width));
 
 
-                foreach(int nextVertex in mazeGraph[currentVertex])
+                foreach (int nextVertex in mazeGraph[currentVertex])
                 {
                     if (visited[nextVertex])
                     { continue; }

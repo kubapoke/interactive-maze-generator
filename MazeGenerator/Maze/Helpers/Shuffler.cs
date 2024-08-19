@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MazeGenerator.Maze.Helpers
+﻿namespace MazeGenerator.Maze.Helpers
 {
     internal class Shuffler
     {

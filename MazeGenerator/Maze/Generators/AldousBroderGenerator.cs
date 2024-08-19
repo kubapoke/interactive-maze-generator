@@ -1,11 +1,5 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MazeGenerator.Maze.Generators
 {
@@ -24,7 +18,7 @@ namespace MazeGenerator.Maze.Generators
 
             int currentVertex = startVertex, prevVertex = -1;
 
-            while(visitedVertices < height * width)
+            while (visitedVertices < height * width)
             {
                 int r = MainWindow.Rng.Next(fullMazeGraph[currentVertex].Count - 1);
                 int nextVertex = fullMazeGraph[currentVertex][r];

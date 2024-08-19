@@ -13,8 +13,6 @@ namespace MazeGenerator.Drawing
         protected List<((int x, int y) u, (int x, int y) v)> EdgesToDraw = new List<((int x, int y) u, (int x, int y) v)>();
         protected bool ShouldFinishDrawing = false;
         protected bool IsSolutionDrawer { get; init; } = false;
-        protected (int x, int y) Start;
-        protected (int x, int y) Finish;
 
         public static event EventHandler FinishDrawingEventHandler;
 

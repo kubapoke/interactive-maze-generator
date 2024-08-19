@@ -1,10 +1,5 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MazeGenerator.Maze.Generators
 {
@@ -19,15 +14,15 @@ namespace MazeGenerator.Maze.Generators
             List<(int u, int v)> candidateEdges = new List<(int u, int v)>();
 
             int startVertex = MainWindow.Rng.Next(height * width);
-            
+
             visited[startVertex] = true;
 
-            foreach(int neighbor in fullMazeGraph[startVertex])
+            foreach (int neighbor in fullMazeGraph[startVertex])
             {
                 candidateEdges.Add((startVertex, neighbor));
-            }  
+            }
 
-            while(candidateEdges.Count > 0)
+            while (candidateEdges.Count > 0)
             {
                 int r = MainWindow.Rng.Next(candidateEdges.Count);
                 var candidateEdge = candidateEdges[r];
@@ -40,12 +35,12 @@ namespace MazeGenerator.Maze.Generators
 
                     drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(candidateEdge.u, width), CoordinateConverters.VertexToCoords(candidateEdge.v, width));
 
-                    foreach(var neighbor in fullMazeGraph[candidateEdge.v])
+                    foreach (var neighbor in fullMazeGraph[candidateEdge.v])
                     {
                         if (!visited[neighbor])
                         {
                             candidateEdges.Add((candidateEdge.v, neighbor));
-                        }     
+                        }
                     }
                 }
 

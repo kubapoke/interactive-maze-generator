@@ -1,11 +1,5 @@
 ﻿using MazeGenerator.Drawing;
 using MazeGenerator.Maze.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MazeGenerator.Maze.Generators
 {
@@ -22,11 +16,11 @@ namespace MazeGenerator.Maze.Generators
             Stack<int> vertexStack = new Stack<int>();
 
             int startVertex = MainWindow.Rng.Next(height * width);
-            
+
             int visitedVertices = 1;
             visited[startVertex] = true;
 
-            for(int i = 0; i < height * width; i++)
+            for (int i = 0; i < height * width; i++)
             {
                 if (i != startVertex)
                     unusedVertices.Add(i);
@@ -34,7 +28,7 @@ namespace MazeGenerator.Maze.Generators
 
             drawer.AddEdgeToDraw(CoordinateConverters.VertexToCoords(startVertex, width), (-1, -1));
 
-            while(visitedVertices < width * height)
+            while (visitedVertices < width * height)
             {
                 int r = MainWindow.Rng.Next(unusedVertices.Count);
                 int currentVertex = unusedVertices[r];
@@ -43,7 +37,7 @@ namespace MazeGenerator.Maze.Generators
                 vertexStack.Push(currentVertex);
                 inCurrentPath[currentVertex] = true;
 
-                while(!visited[vertexStack.Peek()])
+                while (!visited[vertexStack.Peek()])
                 {
                     r = MainWindow.Rng.Next(fullMazeGraph[currentVertex].Count - 1);
                     int nextVertex = fullMazeGraph[currentVertex][r];
@@ -57,7 +51,7 @@ namespace MazeGenerator.Maze.Generators
                         {
                             inCurrentPath[vertexStack.Pop()] = false;
                         }
-                        
+
                         vertexStack.Pop();
                         if (vertexStack.Count > 0)
                         {
@@ -84,7 +78,7 @@ namespace MazeGenerator.Maze.Generators
 
                 visitedVertices += vertexStack.Count - 1;
 
-                while(vertexStack.Count > 1)
+                while (vertexStack.Count > 1)
                 {
                     int topVertex = vertexStack.Pop();
                     int bottomVertex = vertexStack.Peek();
