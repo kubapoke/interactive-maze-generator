@@ -1,20 +1,16 @@
 # Interactive maze generator
 ## Introduction
-The project is an interactive, visual maze generator written using C# and the WPF framework. It provides an UI allowing for users to generate and (TBA) solve mazes, while visualising the process, allowing for insight into the algorithms behind the scenes.
-
-**Please note, that the project is in an early WIP stage and therefore the majority of its functionality is not yet implemented.**
+The project is an interactive, visual maze generator written using C# and the WPF framework. It provides an UI allowing for users to generate and solve mazes, while visualising the process, allowing for insight into the algorithms behind the scenes.
 
 The main aim of this project is to practice visual programming skills (specifically the aforementioned WPF framework) and learn to create applications with dynamically generated graphics. Moreover the project is supposed to help me practice general object-oriented programming as well as alghoritmics skills.
 
 ## Installation and compilation
-For now, the project has been worked on and compiled using Microsoft's Visual Studio, using WPF Framework and .NET 4.8 on a Windows device (as a WPF application, it is suited for Windows devices only).
+For now, the project has been worked on and compiled using Microsoft's Visual Studio, using WPF Framework and .NET 8.0 on a Windows device.
 
 In the future I'll provide a more accessible way to download just the binary file.
 
 ## Usage
 After running the application, you will see a generation menu. After selecting the maze parameters as well as the maze generation algorithm, pressing the "Generate" button shall create the desired maze, using the chosen algorithm, visualizing the alghoritm's maze creation process.
-
-A similar menu shall be added for maze solving in the near future.
 
 ## To-do list
 1. User interface
@@ -37,7 +33,7 @@ A similar menu shall be added for maze solving in the near future.
 4. Maze solving algorithms
     - [X] DFS
     - [X] BFS
-    - [ ] A*
+    - [X] A*
     - [ ] ...
 5. Miscalleanous
     - [ ] Add more variety to mazes, allowing to properly showcase shortest path algorithms
