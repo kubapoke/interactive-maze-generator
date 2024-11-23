@@ -12,11 +12,11 @@ In the future I'll provide a more accessible way to download just the binary fil
 ## Usage
 After running the application, you will see a generation menu. After selecting the maze parameters as well as the maze generation algorithm, pressing the "Generate" button shall create the desired maze, using the chosen algorithm, visualizing the alghoritm's maze creation process. If the generation is taking up too long, you can press the "Finish" button to finish it faster.
 
-![An example of a maze being generated using Wilson algorithm.](./MazeGenerationExample.jpg)
+![An example of a maze being generated using Wilson algorithm.](./Images/MazeGenerationExample.jpg)
 
 After the maze has been generated, you can select the maze solving parameters as well as a solving algorithm. Pressing the "Solve" button will solve the maze using the desired algorithm, visualising the algorithm's solving process. Similarly as before, you can press the "Finish" button, to finish the maze solving more quickly.
 
-![An example of a maze being solved using A* algorithm.](./MazeSolvingExamle.jpg)
+![An example of a maze being solved using A* algorithm.](./Images/MazeSolvingExamle.jpg)
 
 ## To-do list
 1. User interface
