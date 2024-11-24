@@ -37,14 +37,12 @@ After the maze has been generated, you can select the maze solving parameters as
 
 ## To-do list
 1. User interface
-    - [X] Provide a basic maze generation UI
-    - [X] Provide a basic maze solving UI
-    - [ ] Extend the above menus with more complex options
+    - [X] Provide a maze generation UI
+    - [X] Provide a maze solving UI
 2. Maze visualization
     - [X] Create the basic maze vizualization tools
     - [X] Create the tools for accurately visualizing the creation process of different maze generating algorithms
     - [X] Create the tools for accurately visualizing the creation process of different maze solving algorithms
-    - [ ] Implement dynamic maze scaling, allow for window manipulation for better user experience
     - [ ] Refine the maze graphics, get rid of the unwanted artifacts
 3. Maze generation algorithms
     - [X] DFS
@@ -52,12 +50,10 @@ After the maze has been generated, you can select the maze solving parameters as
     - [X] Prim
     - [X] Wilson (loop-erased random walk)
     - [X] Aldous-Broder
-    - [ ] ...
 4. Maze solving algorithms
     - [X] DFS
     - [X] BFS
     - [X] A*
-    - [ ] ...
 5. Miscalleanous
     - [ ] Add more variety to mazes, allowing to properly showcase shortest path algorithms
     - [ ] Add maze file import/export mechanism
